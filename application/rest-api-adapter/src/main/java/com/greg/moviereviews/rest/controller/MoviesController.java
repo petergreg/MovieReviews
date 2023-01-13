@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MoviesController {
 
   private IRequestMovie iRequestMovie;
-
   private MovieMapper movieMapper;
 
 @GetMapping("/{title}")
