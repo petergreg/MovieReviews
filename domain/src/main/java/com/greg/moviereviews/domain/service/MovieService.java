@@ -12,10 +12,10 @@ public class MovieService implements IRequestMovie {
   @Override
   public Movie getMovie() {
     return Movie.builder()
-        .title("titre")
+        .title("movieTitle")
         .reviews(List.of(
             Review.builder()
-                .reviewBody("ertyfgfgghhhhghh")
+                .reviewBody("reviewBody")
                 .build()))
         .build();
   }
