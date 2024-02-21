@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0001_init_database
+      author: gpeterschmitt
+      changes:
+        - createTable:
+            tableName: movie
+            columns:
+              - column:
+                  name: title
+                  type: varchar(40)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: reviews
+                  type: timestamp(6)
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: product_modification_date
+                  type: timestamp(6)
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
