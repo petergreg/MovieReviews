@@ -1,0 +1,17 @@
+version: '3.9'
+networks:
+  movie-reviews:
+    driver: bridge
+    name: movie-reviews
+services:
+  db:
+    image: "postgres:15"
+    container_name: "postgres-movie-reviews"
+    environment:
+      - POSTGRES_USER=greg
+      - POSTGRES_PASSWORD=greg
+      - POSTGRES_DB=movie-reviews-db
+    ports:
+      - "5432:5432"
+    networks:
+      - movie-reviews

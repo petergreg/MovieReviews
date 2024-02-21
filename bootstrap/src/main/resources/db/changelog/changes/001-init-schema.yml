@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_init_schema
+      author: gpeterschmitt
+      changes:
+        - createTable:
+            tableName: Movie
+            columns:
+              - column:
+                  name: movie_id
+                  type: varchar(40)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_universe_id
+                  type: varchar(30)
+              - column:
+                  name: product_sub_universe_id
+                  type: varchar(30)
+              - column:
+                  name: product_nature_group_id
+                  type: varchar(30)
+              - column:
+                  name: product_nature_id
+                  type: varchar(30)
+              - column:
+                  name: product_creation_date
+                  type: timestamp(6)
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: product_modification_date
+                  type: timestamp(6)
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: CURRENT_TIMESTAMP

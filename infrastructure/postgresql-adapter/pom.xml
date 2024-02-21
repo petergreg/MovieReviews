@@ -5,14 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.greg</groupId>
-        <artifactId>movie-reviews</artifactId>
+        <artifactId>infrastructure</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>application</artifactId>
+    <artifactId>postgresql-adapter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>rest-api-adapter</module>
-    </modules>
 </project>

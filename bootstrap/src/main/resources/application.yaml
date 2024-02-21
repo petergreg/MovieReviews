@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/movie-reviews-db
+    username: greg
+    password: greg
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+logging:
+  level:
+    org.springframework.boot: DEBUG
