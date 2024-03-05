@@ -2,8 +2,7 @@ package com.greg.moviereviews.domain.service;
 
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.model.Review;
-import com.greg.moviereviews.domain.port.request.IRequestMovie;
-import org.springframework.stereotype.Component;
+import com.greg.moviereviews.domain.port.driver.IRequestMovie;
 
 import java.util.List;
 

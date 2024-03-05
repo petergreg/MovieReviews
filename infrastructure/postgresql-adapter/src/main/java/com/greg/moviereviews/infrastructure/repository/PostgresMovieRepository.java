@@ -1,8 +1,11 @@
 package com.greg.moviereviews.infrastructure.repository;
 
-import com.greg.moviereviews.infrastructure.model.MovieEntity;
+import com.greg.moviereviews.domain.model.Movie;
+import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import org.springframework.stereotype.Repository;
 
-public interface PostgresMovieRepository {
+@Repository
+public interface PostgresMovieRepository extends JpaRepositoryImplementation<Movie, String> {
 
-  public MovieEntity find();
+  public Movie findByTitle(final String title);
 }

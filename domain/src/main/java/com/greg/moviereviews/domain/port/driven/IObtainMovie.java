@@ -4,5 +4,5 @@ import com.greg.moviereviews.domain.model.Movie;
 
 public interface IObtainMovie {
 
-    public Movie findMovie();
+    public Movie findMovie(final String title);
 }

@@ -1,6 +1,6 @@
 package com.greg.moviereviews.rest.controller;
 
-import com.greg.moviereviews.domain.port.request.IRequestMovie;
+import com.greg.moviereviews.domain.port.driver.IRequestMovie;
 import com.greg.moviereviews.rest.mappers.MovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
 import io.swagger.v3.oas.annotations.tags.Tag;
