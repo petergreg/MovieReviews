@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Tag(
-    name = "MovieReviews",
-    description = "Movie reviews API"
-)
+@Tag(name = "MovieReviews", description = "Movie reviews API")
 @RequestMapping("/movies")
 @Builder
 public class MoviesController {
@@ -24,9 +21,8 @@ public class MoviesController {
 
   private MovieMapper movieMapper;
 
-@GetMapping("/{title}")
-  public ResponseEntity<Movie> getReview(@PathVariable String title){
-    return ResponseEntity.ok(
-        movieMapper.toApiMovie(iRequestMovie.getMovie()));
+  @GetMapping("/{title}")
+  public ResponseEntity<Movie> getReview(@PathVariable String title) {
+    return ResponseEntity.ok(movieMapper.toApiMovie(iRequestMovie.getMovie(title)));
   }
 }

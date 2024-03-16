@@ -1,22 +1,21 @@
-package com.greg.moviereviews.domain.service;
+package com.greg.moviereviews.postgresql.adapter.service;
 
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.model.Review;
 import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
-import com.greg.moviereviews.domain.port.request.IRequestMovie;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+@Service
 @AllArgsConstructor
-public class MovieService implements IRequestMovie {
-
-  private IObtainMovie iObtainMovie;
+public class MovieService implements IObtainMovie {
 
   @Override
   public Movie getMovie(final String title) {
-    return iObtainMovie.getMovie(title);
+    return Movie.builder()
+        .title("movieTitle")
+        .reviews(List.of(Review.builder().reviewBody("reviewBody").build()))
+        .build();
   }
 }

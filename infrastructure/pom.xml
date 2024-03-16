@@ -15,4 +15,7 @@
     <modules>
         <module>postgresql-adapter</module>
     </modules>
+
+    <dependencies>
+    </dependencies>
 </project>
