@@ -1,11 +1,10 @@
 package com.greg.moviereviews.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
 import java.util.List;
+import lombok.Builder;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class Movie {
 

@@ -1,9 +1,10 @@
 package com.greg.moviereviews.rest.controller;
 
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
-import com.greg.moviereviews.rest.mappers.MovieMapper;
+import com.greg.moviereviews.rest.mapper.MovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Optional;
 import lombok.Builder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,8 @@ public class MoviesController {
   private MovieMapper movieMapper;
 
   @GetMapping("/{title}")
-  public ResponseEntity<Movie> getReview(@PathVariable String title) {
-    return ResponseEntity.ok(movieMapper.toApiMovie(iRequestMovie.getMovie(title)));
+  public ResponseEntity<Optional<Movie>> getReview(@PathVariable String title) {
+    return ResponseEntity.ok(
+        iRequestMovie.getMovie(title).map(movie -> movieMapper.toApiMovie(movie)));
   }
 }

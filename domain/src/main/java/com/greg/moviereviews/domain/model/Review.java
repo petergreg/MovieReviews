@@ -1,11 +1,11 @@
 package com.greg.moviereviews.domain.model;
 
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 @Builder
 public class Review {
-  String author;
-  String reviewBody;
+  final String author;
+  final String reviewBody;
 }
