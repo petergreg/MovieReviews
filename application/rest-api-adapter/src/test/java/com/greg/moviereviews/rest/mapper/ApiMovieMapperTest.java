@@ -15,10 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class MovieMapperTest {
+class ApiMovieMapperTest {
 
-  @Mock private ReviewMapper reviewMapper;
-  @InjectMocks private MovieMapper movieMapper;
+  @Mock private ApiReviewMapper reviewMapper;
+  @InjectMocks private ApiMovieMapper movieMapper;
 
   @Test
   void shouldMapToApiMovie() {

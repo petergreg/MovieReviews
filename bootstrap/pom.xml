@@ -9,14 +9,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>bootstrap</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>com.greg</groupId>
             <artifactId>rest-api-adapter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.tomakehurst</groupId>

@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class Review {
-  final String author;
-  final String reviewBody;
+  private final String author;
+  private final String reviewBody;
 }

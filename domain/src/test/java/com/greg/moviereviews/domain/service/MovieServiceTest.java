@@ -1,7 +1,6 @@
 package com.greg.moviereviews.domain.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.greg.moviereviews.domain.model.Movie;

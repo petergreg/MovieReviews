@@ -1,12 +1,11 @@
 package com.greg.moviereviews.rest.controller;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
-import com.greg.moviereviews.rest.mapper.MovieMapper;
+import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
 import java.util.Optional;
 import lombok.val;
@@ -20,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 @ExtendWith(MockitoExtension.class)
 class MoviesControllerTest {
 
-  @Mock private MovieMapper movieMapper;
+  @Mock private ApiMovieMapper movieMapper;
   @Mock private IRequestMovie iRequestMovie;
   @InjectMocks private MoviesController moviesController;
 

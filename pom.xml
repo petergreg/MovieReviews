@@ -48,6 +48,16 @@
                 <artifactId>wiremock</artifactId>
                 <version>2.27.2</version>
             </dependency>
+            <dependency>
+                <groupId>com.greg</groupId>
+                <artifactId>domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.greg</groupId>
+                <artifactId>rest-api-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

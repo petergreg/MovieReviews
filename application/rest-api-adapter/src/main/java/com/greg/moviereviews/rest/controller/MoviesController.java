@@ -1,7 +1,7 @@
 package com.greg.moviereviews.rest.controller;
 
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
-import com.greg.moviereviews.rest.mapper.MovieMapper;
+import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public class MoviesController {
 
   private IRequestMovie iRequestMovie;
 
-  private MovieMapper movieMapper;
+  private ApiMovieMapper movieMapper;
 
   @GetMapping("/{title}")
   public ResponseEntity<Optional<Movie>> getReview(@PathVariable String title) {
