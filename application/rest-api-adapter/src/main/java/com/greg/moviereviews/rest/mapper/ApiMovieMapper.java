@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 @Data
 @Builder
 @Component
-public class MovieMapper {
+public class ApiMovieMapper {
 
-  ReviewMapper reviewMapper;
+  ApiReviewMapper reviewMapper;
 
   public Movie toApiMovie(final com.greg.moviereviews.domain.model.Movie domainMovie) {
     return Movie.builder()

@@ -4,7 +4,7 @@ databaseChangeLog:
       author: gpeterschmitt
       changes:
         - createTable:
-            tableName: Movie
+            tableName: movie
             columns:
               - column:
                   name: movie_id
@@ -13,26 +13,33 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: product_universe_id
-                  type: varchar(30)
-              - column:
-                  name: product_sub_universe_id
-                  type: varchar(30)
-              - column:
-                  name: product_nature_group_id
-                  type: varchar(30)
-              - column:
-                  name: product_nature_id
-                  type: varchar(30)
-              - column:
-                  name: product_creation_date
-                  type: timestamp(6)
+                  name: title
+                  type: varchar(40)
                   constraints:
                     nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
+        - createTable:
+            tableName: review
+            columns:
               - column:
-                  name: product_modification_date
-                  type: timestamp(6)
+                  name: review_id
+                  type: varchar(40)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: author
+                  type: varchar(40)
                   constraints:
                     nullable: false
-                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: review_body
+                  type: text
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: review
+            baseColumnNames: review_id
+            referencedTableName: movie
+            referencedColumnNames: movie_id
+            onDelete: CASCADE
+            constraintName: fk_movie_review

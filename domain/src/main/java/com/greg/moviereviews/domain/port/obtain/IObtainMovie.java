@@ -5,6 +5,5 @@ import com.greg.moviereviews.domain.model.Movie;
 import java.util.Optional;
 
 public interface IObtainMovie {
-
     public Optional<Movie> getMovie(final String title);
 }

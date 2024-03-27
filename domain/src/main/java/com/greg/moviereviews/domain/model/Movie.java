@@ -8,6 +8,6 @@ import lombok.Data;
 @Builder
 public class Movie {
 
-  String title;
-  List<Review> reviews;
+  private final String title;
+  private final List<Review> reviews;
 }

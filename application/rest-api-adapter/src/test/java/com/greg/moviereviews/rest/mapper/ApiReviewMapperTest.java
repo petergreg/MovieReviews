@@ -1,15 +1,14 @@
 package com.greg.moviereviews.rest.mapper;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.greg.moviereviews.domain.model.Review;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
-class ReviewMapperTest {
+class ApiReviewMapperTest {
 
-  private final ReviewMapper reviewMapper = new ReviewMapper();
+  private final ApiReviewMapper reviewMapper = new ApiReviewMapper();
 
   @Test
   void shouldMapToApiReview() {
