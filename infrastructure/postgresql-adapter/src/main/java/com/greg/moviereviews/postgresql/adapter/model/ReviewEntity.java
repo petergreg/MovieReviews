@@ -1,5 +1,6 @@
 package com.greg.moviereviews.postgresql.adapter.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,7 +18,11 @@ import lombok.Setter;
 @Setter
 @Table(name = "review")
 public class ReviewEntity {
-  @Id private String id;
+
+  @Id
+  @Column(name = "movie_id", nullable = false)
+  private String id;
+
   private String author;
   private String reviewBody;
 }

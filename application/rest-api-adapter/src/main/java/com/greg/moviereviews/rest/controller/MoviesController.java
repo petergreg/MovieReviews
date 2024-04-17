@@ -9,6 +9,7 @@ import lombok.Builder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,7 @@ public class MoviesController {
   private ApiMovieMapper movieMapper;
 
   @GetMapping("/{title}")
-  public ResponseEntity<Optional<Movie>> getReview(@PathVariable String title) {
+  public ResponseEntity<Optional<Movie>> getMovie(@PathVariable String title) {
     return ResponseEntity.ok(
         iRequestMovie.getMovie(title).map(movie -> movieMapper.toApiMovie(movie)));
   }

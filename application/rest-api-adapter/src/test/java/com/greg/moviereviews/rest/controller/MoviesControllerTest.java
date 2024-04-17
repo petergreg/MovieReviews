@@ -34,7 +34,7 @@ class MoviesControllerTest {
     when(movieMapper.toApiMovie(domainMovie)).thenReturn(apiMovie);
 
     // When
-    val result = moviesController.getReview(title);
+    val result = moviesController.getMovie(title);
 
     // Then
     assertThat(result).isEqualTo(ResponseEntity.ok(Optional.of(apiMovie)));
@@ -47,7 +47,7 @@ class MoviesControllerTest {
     when(iRequestMovie.getMovie(title)).thenReturn(Optional.empty());
 
     // When
-    val result = moviesController.getReview(title);
+    val result = moviesController.getMovie(title);
 
     // Then
     assertThat(result).isEqualTo(ResponseEntity.ok(Optional.empty()));

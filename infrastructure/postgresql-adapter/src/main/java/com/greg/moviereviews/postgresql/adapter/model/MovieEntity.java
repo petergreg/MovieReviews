@@ -1,5 +1,6 @@
 package com.greg.moviereviews.postgresql.adapter.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -19,7 +20,11 @@ import lombok.Setter;
 @Builder
 @Table(name = "movie")
 public class MovieEntity {
+
+  @Id
+  @Column(name = "movie_id", nullable = false)
+  private Long id;
+
   private String title;
   @OneToMany private List<ReviewEntity> reviews;
-  @Id private Long id;
 }
