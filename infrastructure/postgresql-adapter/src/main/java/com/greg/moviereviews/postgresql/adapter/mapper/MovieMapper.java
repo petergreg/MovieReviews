@@ -13,8 +13,17 @@ public class MovieMapper {
 
   public Movie entityToDomain(final MovieEntity movieEntity) {
     return Movie.builder()
+        .id(movieEntity.getId())
         .title(movieEntity.getTitle())
-        .reviews(movieEntity.getReviews().stream().map(reviewMapper::entityToDomain).toList())
+        .review(movieEntity.getReview())
+        .build();
+  }
+
+  public MovieEntity domainToEntity(final Movie movie) {
+    return MovieEntity.builder()
+        .id(movie.getId())
+        .title(movie.getTitle())
+        .review(movie.getReview())
         .build();
   }
 }

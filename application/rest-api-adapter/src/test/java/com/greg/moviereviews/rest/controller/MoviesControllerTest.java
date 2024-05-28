@@ -52,4 +52,21 @@ class MoviesControllerTest {
     // Then
     assertThat(result).isEqualTo(ResponseEntity.ok(Optional.empty()));
   }
+
+  @Test
+  void shouldReturnMovieResponse_whenCreateMovieOk() {
+    // Given
+    val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
+    val apiMovie = mock(Movie.class);
+
+    when(iRequestMovie.createMovie(domainMovie)).thenReturn(domainMovie);
+    when(movieMapper.toApiMovie(domainMovie)).thenReturn(apiMovie);
+    when(movieMapper.toDomainMovie(apiMovie)).thenReturn(domainMovie);
+
+    // When
+    val result = moviesController.createMovie(apiMovie);
+
+    // Then
+    assertThat(result).isEqualTo(ResponseEntity.ok(apiMovie));
+  }
 }

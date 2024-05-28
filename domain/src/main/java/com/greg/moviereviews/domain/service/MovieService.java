@@ -15,4 +15,9 @@ public class MovieService implements IRequestMovie {
   public Optional<Movie> getMovie(final String title) {
     return iObtainMovie.getMovie(title);
   }
+
+  @Override
+  public Movie createMovie(Movie movie) {
+    return iObtainMovie.createMovie(movie);
+  }
 }

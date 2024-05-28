@@ -20,4 +20,10 @@ public class PostgresMovieService implements IObtainMovie {
   public Optional<Movie> getMovie(final String title) {
     return movieRepository.findByTitle(title).map(movieMapper::entityToDomain);
   }
+
+  public Movie createMovie(final Movie movie) {
+    return Optional.of(movieRepository.save(movieMapper.domainToEntity(movie)))
+        .map(movieMapper::entityToDomain)
+        .orElse(null);
+  }
 }

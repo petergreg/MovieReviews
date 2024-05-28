@@ -52,4 +52,21 @@ class PostgresMovieServiceTest {
     // Then
     assertThat(result).isEqualTo(Optional.empty());
   }
+
+  @Test
+  void shouldCreateMovie() {
+    // Given
+    val movieEntity = mock(MovieEntity.class);
+    val domainMovie = mock(Movie.class);
+
+    when(movieMapper.domainToEntity(domainMovie)).thenReturn(movieEntity);
+    when(movieMapper.entityToDomain(movieEntity)).thenReturn(domainMovie);
+    when(movieRepository.save(movieEntity)).thenReturn(movieEntity);
+
+    // When
+    val result = postgresMovieService.createMovie(domainMovie);
+
+    // Then
+    assertThat(result).isEqualTo(domainMovie);
+  }
 }

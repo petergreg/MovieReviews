@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface IObtainMovie {
     public Optional<Movie> getMovie(final String title);
+    public Movie createMovie(final Movie movie);
 }
