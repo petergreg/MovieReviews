@@ -8,6 +8,7 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
-logging:
-  level:
-    org.springframework.boot: DEBUG
+#logging:
+#  level:
+#  level:
+#    org.springframework.boot: DEBUG

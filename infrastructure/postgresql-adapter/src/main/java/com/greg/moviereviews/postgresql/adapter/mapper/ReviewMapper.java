@@ -11,8 +11,17 @@ public class ReviewMapper {
 
   public Review entityToDomain(final ReviewEntity reviewEntity) {
     return Review.builder()
+        .id(reviewEntity.getId())
         .author(reviewEntity.getAuthor())
         .reviewBody(reviewEntity.getReviewBody())
+        .build();
+  }
+
+  public ReviewEntity domainToEntity(final Review domainReview) {
+    return ReviewEntity.builder()
+        .id(domainReview.getId())
+        .author(domainReview.getAuthor())
+        .reviewBody(domainReview.getReviewBody())
         .build();
   }
 }

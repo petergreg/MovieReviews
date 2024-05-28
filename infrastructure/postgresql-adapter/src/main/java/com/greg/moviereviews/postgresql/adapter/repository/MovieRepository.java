@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MovieRepository extends JpaRepositoryImplementation<MovieEntity, String> {
+public interface MovieRepository extends JpaRepositoryImplementation<MovieEntity, Long> {
   public Optional<MovieEntity> findByTitle(final String title);
 }

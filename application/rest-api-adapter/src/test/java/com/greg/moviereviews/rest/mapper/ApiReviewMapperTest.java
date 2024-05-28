@@ -13,9 +13,10 @@ class ApiReviewMapperTest {
   @Test
   void shouldMapToApiReview() {
     // Given
+    val id = 1L;
     val author = "author";
     val reviewBody = "reviewBody";
-    val domainReview = Review.builder().author(author).reviewBody(reviewBody).build();
+    val domainReview = Review.builder().id(id).author(author).reviewBody(reviewBody).build();
 
     // When
     val result = reviewMapper.toApiReview(domainReview);
@@ -24,6 +25,7 @@ class ApiReviewMapperTest {
     assertThat(result)
         .isEqualTo(
             com.greg.moviereviews.rest.model.Review.builder()
+                .id(id)
                 .author(author)
                 .reviewBody(reviewBody)
                 .build());

@@ -27,10 +27,11 @@ class ApiMovieMapperTest {
     val domainReview = mock(Review.class);
     val apiMovie =
         com.greg.moviereviews.rest.model.Movie.builder()
+            .id(1L)
             .title("title")
             .reviews(List.of(apiReview))
             .build();
-    val domainMovie = Movie.builder().title("title").reviews(List.of(domainReview)).build();
+    val domainMovie = Movie.builder().id(1L).title("title").reviews(List.of(domainReview)).build();
 
     when(reviewMapper.toApiReview(domainReview)).thenReturn(apiReview);
 
@@ -39,5 +40,27 @@ class ApiMovieMapperTest {
 
     // Then
     assertThat(result).isEqualTo(apiMovie);
+  }
+
+  @Test
+  void shouldMapToDomainMovie() {
+    // Given
+    val apiReview = mock(com.greg.moviereviews.rest.model.Review.class);
+    val domainReview = mock(Review.class);
+    val apiMovie =
+        com.greg.moviereviews.rest.model.Movie.builder()
+            .id(1L)
+            .title("title")
+            .reviews(List.of(apiReview))
+            .build();
+    val domainMovie = Movie.builder().id(1L).title("title").reviews(List.of(domainReview)).build();
+
+    when(reviewMapper.toDomainReview(apiReview)).thenReturn(domainReview);
+
+    // When
+    val result = movieMapper.toDomainMovie(apiMovie);
+
+    // Then
+    assertThat(result).isEqualTo(domainMovie);
   }
 }

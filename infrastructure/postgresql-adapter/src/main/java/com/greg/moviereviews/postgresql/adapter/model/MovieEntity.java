@@ -26,5 +26,7 @@ public class MovieEntity {
   private Long id;
 
   private String title;
-  @OneToMany private List<ReviewEntity> reviews;
+
+  @OneToMany
+  private List<ReviewEntity> reviews;
 }

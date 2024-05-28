@@ -28,7 +28,9 @@ public class MovieMapperTest {
     val reviewEntity = mock(ReviewEntity.class);
     val domainReview = mock(Review.class);
     val title = "title";
-    val movieEntity = MovieEntity.builder().title(title).reviews(List.of(reviewEntity)).build();
+    long id = 1L;
+    val movieEntity =
+        MovieEntity.builder().id(id).title(title).reviews(List.of(reviewEntity)).build();
 
     when(reviewMapper.entityToDomain(reviewEntity)).thenReturn(domainReview);
 
@@ -37,6 +39,6 @@ public class MovieMapperTest {
 
     // Then
     assertThat(result)
-        .isEqualTo(Movie.builder().title(title).reviews(List.of(domainReview)).build());
+        .isEqualTo(Movie.builder().id(id).title(title).reviews(List.of(domainReview)).build());
   }
 }

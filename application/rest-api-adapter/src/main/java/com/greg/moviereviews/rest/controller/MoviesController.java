@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +28,13 @@ public class MoviesController {
   public ResponseEntity<Optional<Movie>> getMovie(@PathVariable String title) {
     return ResponseEntity.ok(
         iRequestMovie.getMovie(title).map(movie -> movieMapper.toApiMovie(movie)));
+  }
+
+  @PostMapping("/")
+  public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
+    return Optional.ofNullable(iRequestMovie.createMovie(movieMapper.toDomainMovie(movie)))
+        .map(domainMovie -> movieMapper.toApiMovie(domainMovie))
+        .map(ResponseEntity::ok)
+        .orElseThrow(RuntimeException::new);
   }
 }

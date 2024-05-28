@@ -9,5 +9,6 @@ import lombok.Data;
 public class Movie {
 
   String title;
+  Long id;
   List<Review> reviews;
 }
