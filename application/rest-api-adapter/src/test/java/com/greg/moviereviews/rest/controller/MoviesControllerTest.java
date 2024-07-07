@@ -69,4 +69,30 @@ class MoviesControllerTest {
     // Then
     assertThat(result).isEqualTo(ResponseEntity.ok(apiMovie));
   }
+
+  @Test
+  void shouldReturn204_whenDeleteMovieOk() {
+    // Given
+    val title = "title";
+    when(iRequestMovie.deleteMovie(title)).thenReturn(true);
+
+    // When
+    val result = moviesController.deleteMovie(title);
+
+    // Then
+    assertThat(result).isEqualTo(ResponseEntity.noContent().build());
+  }
+
+  @Test
+  void shouldReturn404_whenDeleteMovieNotOk() {
+    // Given
+    val title = "title";
+    when(iRequestMovie.deleteMovie(title)).thenReturn(false);
+
+    // When
+    val result = moviesController.deleteMovie(title);
+
+    // Then
+    assertThat(result).isEqualTo(ResponseEntity.notFound().build());
+  }
 }

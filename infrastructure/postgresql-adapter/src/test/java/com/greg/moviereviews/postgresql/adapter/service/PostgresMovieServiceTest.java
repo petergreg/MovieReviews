@@ -69,4 +69,17 @@ class PostgresMovieServiceTest {
     // Then
     assertThat(result).isEqualTo(domainMovie);
   }
+
+  @Test
+  void shouldDeleteMovie() {
+    // Given
+    val title = "title";
+    when(movieRepository.deleteByTitle(title)).thenReturn(1);
+
+    // When
+    val result = postgresMovieService.deleteMovie(title);
+
+    // Then
+    assertThat(result).isEqualTo(1);
+  }
 }

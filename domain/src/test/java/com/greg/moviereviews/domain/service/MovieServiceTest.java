@@ -47,4 +47,30 @@ class MovieServiceTest {
     // Then
     assertThat(result).isEmpty();
   }
+
+  @Test
+  void shouldReturnTrueWhenDeleteMovieByTitleIsOK() {
+    // Given
+    val title = "title";
+    when(iObtainMovie.deleteMovie(title)).thenReturn(1);
+
+    // When
+    val result = movieService.deleteMovie(title);
+
+    // Then
+    assertThat(result).isTrue();
+  }
+
+  @Test
+  void shouldReturnFalseWhenDeleteMovieByTitleNotOk() {
+    // Given
+    val title = "title";
+    when(iObtainMovie.deleteMovie(title)).thenReturn(0);
+
+    // When
+    val result = movieService.deleteMovie(title);
+
+    // Then
+    assertThat(result).isFalse();
+  }
 }
