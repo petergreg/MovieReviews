@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Review {
+  final Long id;
   final String author;
   final String reviewBody;
 }

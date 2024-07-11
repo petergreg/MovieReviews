@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: movie_id
-                  type: varchar(40)
+                  type: bigint
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -17,12 +17,16 @@ databaseChangeLog:
                   type: varchar(40)
                   constraints:
                     nullable: false
+              - column:
+                  name: review
+                  type: text
+                  constraints:
         - createTable:
             tableName: review
             columns:
               - column:
                   name: review_id
-                  type: varchar(40)
+                  type: bigint
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -36,10 +40,10 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: review
-            baseColumnNames: review_id
-            referencedTableName: movie
-            referencedColumnNames: movie_id
-            onDelete: CASCADE
-            constraintName: fk_movie_review
+#        - addForeignKeyConstraint:
+#            baseTableName: review
+#            baseColumnNames: review_id
+#            referencedTableName: movie
+#            referencedColumnNames: movie_id
+#            onDelete: CASCADE
+#            constraintName: fk_movie_review

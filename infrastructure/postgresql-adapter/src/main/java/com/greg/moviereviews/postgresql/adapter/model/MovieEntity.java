@@ -3,9 +3,7 @@ package com.greg.moviereviews.postgresql.adapter.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +24,7 @@ public class MovieEntity {
   private Long id;
 
   private String title;
-  @OneToMany private List<ReviewEntity> reviews;
+
+  //  @OneToMany
+  private String review;
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,12 +17,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 @Table(name = "review")
 public class ReviewEntity {
 
   @Id
-  @Column(name = "movie_id", nullable = false)
-  private String id;
+  //  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "review_id", nullable = false)
+  private Long id;
 
   private String author;
   private String reviewBody;

@@ -7,7 +7,13 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yml
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
-logging:
-  level:
-    org.springframework.boot: DEBUG
+#logging:
+#  level:
+#  level:
+#    org.springframework.boot: DEBUG

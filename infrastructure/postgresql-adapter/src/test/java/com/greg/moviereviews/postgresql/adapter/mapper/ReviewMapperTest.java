@@ -16,12 +16,30 @@ public class ReviewMapperTest {
     // Given
     val author = "author";
     val reviewBody = "reviewBody";
-    val reviewEntity = ReviewEntity.builder().author(author).reviewBody(reviewBody).build();
+    val id = 1L;
+    val reviewEntity = ReviewEntity.builder().id(id).author(author).reviewBody(reviewBody).build();
 
     // When
     val result = reviewMapper.entityToDomain(reviewEntity);
 
     // Then
-    assertThat(result).isEqualTo(Review.builder().author(author).reviewBody(reviewBody).build());
+    assertThat(result)
+        .isEqualTo(Review.builder().id(id).author(author).reviewBody(reviewBody).build());
+  }
+
+  @Test
+  void shouldMapReviewFromDomainToEntity() {
+    // Given
+    val author = "author";
+    val reviewBody = "reviewBody";
+    val id = 1L;
+    val domainMovie = Review.builder().id(id).author(author).reviewBody(reviewBody).build();
+
+    // When
+    val result = reviewMapper.domainToEntity(domainMovie);
+
+    // Then
+    assertThat(result)
+        .isEqualTo(ReviewEntity.builder().id(id).author(author).reviewBody(reviewBody).build());
   }
 }

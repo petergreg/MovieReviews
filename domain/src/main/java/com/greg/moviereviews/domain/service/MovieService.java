@@ -15,4 +15,14 @@ public class MovieService implements IRequestMovie {
   public Optional<Movie> getMovie(final String title) {
     return iObtainMovie.getMovie(title);
   }
+
+  @Override
+  public Movie createMovie(final Movie movie) {
+    return iObtainMovie.createMovie(movie);
+  }
+
+  @Override
+  public boolean deleteMovie(final String title) {
+    return iObtainMovie.deleteMovie(title) > 0;
+  }
 }

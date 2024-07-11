@@ -2,11 +2,9 @@ package com.greg.moviereviews.rest.mapper;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.model.Review;
-import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,21 +21,43 @@ class ApiMovieMapperTest {
   @Test
   void shouldMapToApiMovie() {
     // Given
-    val apiReview = mock(com.greg.moviereviews.rest.model.Review.class);
+    val review = "apiReview";
     val domainReview = mock(Review.class);
     val apiMovie =
         com.greg.moviereviews.rest.model.Movie.builder()
+            .id(1L)
             .title("title")
-            .reviews(List.of(apiReview))
+            .review(review)
             .build();
-    val domainMovie = Movie.builder().title("title").reviews(List.of(domainReview)).build();
+    val domainMovie = Movie.builder().id(1L).title("title").review(review).build();
 
-    when(reviewMapper.toApiReview(domainReview)).thenReturn(apiReview);
+    //    when(reviewMapper.toApiReview(domainReview)).thenReturn(apiReview);
 
     // When
     val result = movieMapper.toApiMovie(domainMovie);
 
     // Then
     assertThat(result).isEqualTo(apiMovie);
+  }
+
+  @Test
+  void shouldMapToDomainMovie() {
+    // Given
+    val review = "review";
+    val apiMovie =
+        com.greg.moviereviews.rest.model.Movie.builder()
+            .id(1L)
+            .title("title")
+            .review(review)
+            .build();
+    val domainMovie = Movie.builder().id(1L).title("title").review(review).build();
+
+    //    when(reviewMapper.toDomainReview(apiReview)).thenReturn(domainReview);
+
+    // When
+    val result = movieMapper.toDomainMovie(apiMovie);
+
+    // Then
+    assertThat(result).isEqualTo(domainMovie);
   }
 }
