@@ -45,12 +45,8 @@ class ApiMovieMapperTest {
     // Given
     val review = "review";
     val apiMovie =
-        com.greg.moviereviews.rest.model.Movie.builder()
-            .id(1L)
-            .title("title")
-            .review(review)
-            .build();
-    val domainMovie = Movie.builder().id(1L).title("title").review(review).build();
+        com.greg.moviereviews.rest.model.Movie.builder().title("title").review(review).build();
+    val domainMovie = Movie.builder().title("title").review(review).build();
 
     //    when(reviewMapper.toDomainReview(apiReview)).thenReturn(domainReview);
 
