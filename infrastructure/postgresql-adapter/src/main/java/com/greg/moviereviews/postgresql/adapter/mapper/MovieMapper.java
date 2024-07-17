@@ -20,10 +20,6 @@ public class MovieMapper {
   }
 
   public MovieEntity domainToEntity(final Movie movie) {
-    return MovieEntity.builder()
-        .id(movie.getId())
-        .title(movie.getTitle())
-        .review(movie.getReview())
-        .build();
+    return MovieEntity.builder().title(movie.getTitle()).review(movie.getReview()).build();
   }
 }
