@@ -82,4 +82,19 @@ class PostgresMovieServiceTest {
     // Then
     assertThat(result).isEqualTo(1);
   }
+
+  @Test
+  void shouldReturnMinusOneWhenUpdateMovieReturnsMinusOne() {
+    // Given
+    val movie = Movie.builder().title("title").build();
+    val movieEntity = movieMapper.domainToEntity(movie);
+    when(movieMapper.domainToEntity(movie)).thenReturn(movieEntity);
+    when(movieRepository.updateByTitle(movieEntity)).thenReturn(1);
+
+    // When
+    val result = postgresMovieService.updateMovie(movie);
+
+    // Then
+    assertThat(result).isEqualTo(1);
+  }
 }

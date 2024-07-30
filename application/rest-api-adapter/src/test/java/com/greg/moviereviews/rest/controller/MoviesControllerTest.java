@@ -3,6 +3,8 @@ package com.greg.moviereviews.rest.controller;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.notFound;
 
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
@@ -80,7 +82,7 @@ class MoviesControllerTest {
     val result = moviesController.deleteMovie(title);
 
     // Then
-    assertThat(result).isEqualTo(ResponseEntity.noContent().build());
+    assertThat(result).isEqualTo(noContent().build());
   }
 
   @Test
@@ -93,6 +95,38 @@ class MoviesControllerTest {
     val result = moviesController.deleteMovie(title);
 
     // Then
-    assertThat(result).isEqualTo(ResponseEntity.notFound().build());
+    assertThat(result).isEqualTo(notFound().build());
+  }
+
+  @Test
+  void shouldReturnMovieResponse_whenUpdateMovieOk() {
+    // Given
+    val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
+    val apiMovie = mock(Movie.class);
+
+    when(movieMapper.toDomainMovie(apiMovie)).thenReturn(domainMovie);
+    when(iRequestMovie.updateMovie(domainMovie)).thenReturn(true);
+
+    // When
+    val result = moviesController.updateMovie(apiMovie);
+
+    // Then
+    assertThat(result).isEqualTo(noContent().build());
+  }
+
+  @Test
+  void shouldReturn404_whenUpdateMovieNotOk() {
+    // Given
+    val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
+    val apiMovie = mock(Movie.class);
+
+    when(movieMapper.toDomainMovie(apiMovie)).thenReturn(domainMovie);
+    when(iRequestMovie.updateMovie(domainMovie)).thenReturn(false);
+
+    // When
+    val result = moviesController.updateMovie(apiMovie);
+
+    // Then
+    assertThat(result).isEqualTo(notFound().build());
   }
 }
