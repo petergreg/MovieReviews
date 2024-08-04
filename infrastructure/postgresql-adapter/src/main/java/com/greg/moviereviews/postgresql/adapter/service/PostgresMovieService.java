@@ -29,6 +29,10 @@ public class PostgresMovieService implements IObtainMovie {
         .orElse(null);
   }
 
+  public int updateMovie(final Movie movie) {
+    return movieRepository.updateByTitle(movieMapper.domainToEntity(movie));
+  }
+
   public int deleteMovie(final String title) {
     return movieRepository.deleteByTitle(title);
   }

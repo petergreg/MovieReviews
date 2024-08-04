@@ -73,4 +73,31 @@ class MovieServiceTest {
     // Then
     assertThat(result).isFalse();
   }
+
+  @Test
+  void shouldReturnTrueWhenUpdateMovieIsOk() {
+    // Given
+    val movie = Movie.builder().title("title").build();
+    when(iObtainMovie.updateMovie(movie)).thenReturn(1);
+
+    // When
+    val result = movieService.updateMovie(movie);
+
+    // Then
+    assertThat(result).isTrue();
+  }
+
+  @Test
+  void shouldReturnFalseWhenUpdateMovieNotOk() {
+    // Given
+    val movie = Movie.builder().title("title").build();
+    when(iObtainMovie.updateMovie(movie)).thenReturn(0);
+
+    // When
+    val result = movieService.updateMovie(movie);
+
+    // Then
+    assertThat(result).isFalse();
+  }
+
 }

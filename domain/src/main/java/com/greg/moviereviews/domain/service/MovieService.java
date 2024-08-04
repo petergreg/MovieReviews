@@ -22,6 +22,11 @@ public class MovieService implements IRequestMovie {
   }
 
   @Override
+  public boolean updateMovie(final Movie movie) {
+    return iObtainMovie.updateMovie(movie) > 0;
+  }
+
+  @Override
   public boolean deleteMovie(final String title) {
     return iObtainMovie.deleteMovie(title) > 0;
   }
