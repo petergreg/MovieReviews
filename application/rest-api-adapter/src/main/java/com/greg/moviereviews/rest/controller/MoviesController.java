@@ -27,9 +27,11 @@ public class MoviesController {
   private ApiMovieMapper movieMapper;
 
   @GetMapping("/{title}")
-  public ResponseEntity<Optional<Movie>> getMovie(@PathVariable String title) {
-    return ResponseEntity.ok(
-        iRequestMovie.getMovie(title).map(movie -> movieMapper.toApiMovie(movie)));
+  public ResponseEntity<Movie> getMovie(@PathVariable String title) {
+    return iRequestMovie
+        .getMovie(title)
+        .map(movie -> ResponseEntity.ok(movieMapper.toApiMovie(movie)))
+        .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping("/")

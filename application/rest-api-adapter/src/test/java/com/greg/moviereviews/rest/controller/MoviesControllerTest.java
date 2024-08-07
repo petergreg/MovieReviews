@@ -39,11 +39,11 @@ class MoviesControllerTest {
     val result = moviesController.getMovie(title);
 
     // Then
-    assertThat(result).isEqualTo(ResponseEntity.ok(Optional.of(apiMovie)));
+    assertThat(result).isEqualTo(ResponseEntity.ok(apiMovie));
   }
 
   @Test
-  void shouldNotReturnMovieResponse_whenNoMovie() {
+  void shouldNotReturn404_whenNoMovie() {
     // Given
     val title = "title";
     when(iRequestMovie.getMovie(title)).thenReturn(Optional.empty());
@@ -52,7 +52,7 @@ class MoviesControllerTest {
     val result = moviesController.getMovie(title);
 
     // Then
-    assertThat(result).isEqualTo(ResponseEntity.ok(Optional.empty()));
+    assertThat(result).isEqualTo(ResponseEntity.notFound().build());
   }
 
   @Test
