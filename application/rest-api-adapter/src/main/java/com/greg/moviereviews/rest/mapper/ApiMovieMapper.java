@@ -14,7 +14,8 @@ public class ApiMovieMapper {
 
   public Movie toApiMovie(final com.greg.moviereviews.domain.model.Movie domainMovie) {
     return Movie.builder()
-        .id(domainMovie.getId())
+        //        .id(domainMovie.getId())
+        .author(domainMovie.getAuthor())
         .title(domainMovie.getTitle())
         .review(domainMovie.getReview())
         .build();
@@ -23,6 +24,7 @@ public class ApiMovieMapper {
   public com.greg.moviereviews.domain.model.Movie toDomainMovie(final Movie apiMovie) {
     return com.greg.moviereviews.domain.model.Movie.builder()
         .title(apiMovie.getTitle())
+        .author(apiMovie.getAuthor())
         .review(apiMovie.getReview())
         .build();
   }

@@ -4,6 +4,7 @@ import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import java.util.Optional;
 import lombok.Builder;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +28,12 @@ public class MoviesController {
   private ApiMovieMapper movieMapper;
 
   @GetMapping("/{title}")
-  public ResponseEntity<Movie> getMovie(@PathVariable String title) {
-    return iRequestMovie
+  public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) {
+    return ResponseEntity.ok(iRequestMovie
         .getMovie(title)
-        .map(movie -> ResponseEntity.ok(movieMapper.toApiMovie(movie)))
-        .orElse(ResponseEntity.notFound().build());
+            .stream().map(movieMapper::toApiMovie)
+            .toList());
+//        .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping("/")

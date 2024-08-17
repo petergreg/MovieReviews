@@ -5,6 +5,7 @@ import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
 import com.greg.moviereviews.postgresql.adapter.mapper.MovieMapper;
 import com.greg.moviereviews.postgresql.adapter.repository.MovieRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class PostgresMovieService implements IObtainMovie {
   private final MovieMapper movieMapper;
 
   @Override
-  public Optional<Movie> getMovie(final String title) {
-    return movieRepository.findByTitle(title).map(movieMapper::entityToDomain);
+  public List<Movie> getMovie(final String title) {
+    return movieRepository.findByTitle(title).stream().map(movieMapper::entityToDomain).toList();
   }
 
   public Movie createMovie(final Movie movie) {

@@ -1,10 +1,14 @@
 package com.greg.moviereviews.domain.service;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -25,13 +29,13 @@ class MovieServiceTest {
     // Given
     val title = "title";
     val movie = Movie.builder().title(title).build();
-    when(iObtainMovie.getMovie(title)).thenReturn(Optional.of(movie));
+    when(iObtainMovie.getMovie(title)).thenReturn(List.of(movie));
 
     // When
     val result = movieService.getMovie(title);
 
     // Then
-    assertThat(result).contains(movie);
+    assertThat(result).isEqualTo(List.of(movie));
   }
 
   @Test
@@ -39,7 +43,7 @@ class MovieServiceTest {
     // Given
     val title = "unknownTitle";
     val movie = Movie.builder().title(title).build();
-    when(iObtainMovie.getMovie(title)).thenReturn(Optional.empty());
+    when(iObtainMovie.getMovie(title)).thenReturn(emptyList());
 
     // When
     val result = movieService.getMovie(title);
