@@ -8,7 +8,8 @@ import lombok.Data;
 @Builder
 public class Movie {
 
-  private final Long id;
+//  private final Long id;
+  private final String author;
   private final String title;
   private final String review;
 }

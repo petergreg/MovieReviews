@@ -6,20 +6,30 @@ databaseChangeLog:
         - createTable:
             tableName: movie
             columns:
-              - column:
-                  name: movie_id
-                  type: bigint
-                  constraints:
-                    primaryKey: true
-                    nullable: false
+#              - column:
+#                  name: movie_id
+#                  type: bigint
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
               - column:
                   name: title
                   type: varchar(40)
                   constraints:
                     nullable: false
               - column:
+                  name: author
+                  type: varchar(40)
+                  constraints:
+                    nullable: false
+              - column:
                   name: review
                   type: text
+        -  addPrimaryKey:
+             tableName: movie
+             columnNames:  title, author
+             constraintName:  pk_movie
+             schemaName:  public
         - createTable:
             tableName: review
             columns:
@@ -44,14 +54,14 @@ databaseChangeLog:
 #            referencedColumnNames: movie_id
 #            onDelete: CASCADE
 #            constraintName: fk_movie_review
-        -  createSequence:
-             cacheSize:  371717
-             catalogName:  movie
-             cycle:  false
-             dataType:  int
-             incrementBy:  1
-             maxValue:  100
-             minValue:  1
-             schemaName:  public
-             sequenceName:  movie_seq
-             startValue:  1
+#        -  createSequence:
+#             cacheSize:  371717
+#             catalogName:  movie
+#             cycle:  false
+#             dataType:  int
+#             incrementBy:  1
+#             maxValue:  100
+#             minValue:  1
+#             schemaName:  public
+#             sequenceName:  movie_seq
+#             startValue:  1

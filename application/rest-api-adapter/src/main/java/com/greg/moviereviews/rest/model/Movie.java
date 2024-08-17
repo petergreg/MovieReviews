@@ -9,6 +9,7 @@ import lombok.Data;
 public class Movie {
 
   String title;
-  Long id;
+  String author;
+//  Long id;
   String review;
 }

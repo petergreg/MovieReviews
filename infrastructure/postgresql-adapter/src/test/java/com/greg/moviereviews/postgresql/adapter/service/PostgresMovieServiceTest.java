@@ -1,5 +1,6 @@
 package com.greg.moviereviews.postgresql.adapter.service;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,7 @@ import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.postgresql.adapter.mapper.MovieMapper;
 import com.greg.moviereviews.postgresql.adapter.model.MovieEntity;
 import com.greg.moviereviews.postgresql.adapter.repository.MovieRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -31,26 +33,26 @@ class PostgresMovieServiceTest {
     val domainMovie = mock(Movie.class);
 
     when(movieMapper.entityToDomain(movieEntity)).thenReturn(domainMovie);
-    when(movieRepository.findByTitle(title)).thenReturn(Optional.of(movieEntity));
+    when(movieRepository.findByTitle(title)).thenReturn(List.of(movieEntity));
 
     // When
     val result = postgresMovieService.getMovie(title);
 
     // Then
-    assertThat(result).isEqualTo(Optional.of(domainMovie));
+    assertThat(result).isEqualTo(List.of(domainMovie));
   }
 
   @Test
   void shouldBeEmpty_whenMovieDoesNotExist() {
     // Given
     val title = "title";
-    when(movieRepository.findByTitle(title)).thenReturn(Optional.empty());
+    when(movieRepository.findByTitle(title)).thenReturn(emptyList());
 
     // When
     val result = postgresMovieService.getMovie(title);
 
     // Then
-    assertThat(result).isEqualTo(Optional.empty());
+    assertThat(result).isEqualTo(emptyList());
   }
 
   @Test

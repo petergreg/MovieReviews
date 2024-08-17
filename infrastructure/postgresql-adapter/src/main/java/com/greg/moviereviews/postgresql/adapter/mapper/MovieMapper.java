@@ -13,13 +13,18 @@ public class MovieMapper {
 
   public Movie entityToDomain(final MovieEntity movieEntity) {
     return Movie.builder()
-        .id(movieEntity.getId())
+        //        .id(movieEntity.getId())
+        .author(movieEntity.getAuthor())
         .title(movieEntity.getTitle())
         .review(movieEntity.getReview())
         .build();
   }
 
   public MovieEntity domainToEntity(final Movie movie) {
-    return MovieEntity.builder().title(movie.getTitle()).review(movie.getReview()).build();
+    return MovieEntity.builder()
+        .author(movie.getAuthor())
+        .title(movie.getTitle())
+        .review(movie.getReview())
+        .build();
   }
 }
