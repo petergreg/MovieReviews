@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.notFound;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
@@ -27,7 +29,7 @@ class MoviesControllerTest {
   @InjectMocks private MoviesController moviesController;
 
   @Test
-  void shouldReturnMovieResponse() {
+  void shouldReturnMovieResponse() throws DatabaseException {
     // Given
     val title = "title";
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
@@ -44,7 +46,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturnEmpty_whenNoMovie() {
+  void shouldReturnEmpty_whenNoMovie() throws DatabaseException {
     // Given
     val title = "title";
     when(iRequestMovie.getMovie(title)).thenReturn(emptyList());
@@ -57,7 +59,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturnMovieResponse_whenCreateMovieOk() {
+  void shouldReturnMovieResponse_whenCreateMovieOk() throws FunctionalException, DatabaseException {
     // Given
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
     val apiMovie = mock(Movie.class);
@@ -74,7 +76,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturn204_whenDeleteMovieOk() {
+  void shouldReturn204_whenDeleteMovieOk() throws DatabaseException {
     // Given
     val title = "title";
     when(iRequestMovie.deleteMovie(title)).thenReturn(true);
@@ -87,7 +89,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturn404_whenDeleteMovieNotOk() {
+  void shouldReturn404_whenDeleteMovieNotOk() throws DatabaseException {
     // Given
     val title = "title";
     when(iRequestMovie.deleteMovie(title)).thenReturn(false);
@@ -100,7 +102,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturnMovieResponse_whenUpdateMovieOk() {
+  void shouldReturnMovieResponse_whenUpdateMovieOk() throws DatabaseException {
     // Given
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
     val apiMovie = mock(Movie.class);
@@ -116,7 +118,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturn404_whenUpdateMovieNotOk() {
+  void shouldReturn404_whenUpdateMovieNotOk() throws DatabaseException {
     // Given
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
     val apiMovie = mock(Movie.class);

@@ -2,14 +2,15 @@ package com.greg.moviereviews.domain.service;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieAlreadyExistsException;
+import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
-
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,7 @@ class MovieServiceTest {
   @InjectMocks private MovieService movieService;
 
   @Test
-  void shouldGetMovieByTitle() {
+  void shouldGetMovieByTitle() throws DatabaseException {
     // Given
     val title = "title";
     val movie = Movie.builder().title(title).build();
@@ -39,7 +40,7 @@ class MovieServiceTest {
   }
 
   @Test
-  void shouldNotGetMovieByTitle_whenDoesNotExist() {
+  void shouldNotGetMovieByTitle_whenDoesNotExist() throws DatabaseException {
     // Given
     val title = "unknownTitle";
     val movie = Movie.builder().title(title).build();
@@ -53,7 +54,7 @@ class MovieServiceTest {
   }
 
   @Test
-  void shouldReturnTrueWhenDeleteMovieByTitleIsOK() {
+  void shouldReturnTrueWhenDeleteMovieByTitleIsOK() throws DatabaseException {
     // Given
     val title = "title";
     when(iObtainMovie.deleteMovie(title)).thenReturn(1);
@@ -66,7 +67,7 @@ class MovieServiceTest {
   }
 
   @Test
-  void shouldReturnFalseWhenDeleteMovieByTitleNotOk() {
+  void shouldReturnFalseWhenDeleteMovieByTitleNotOk() throws DatabaseException {
     // Given
     val title = "title";
     when(iObtainMovie.deleteMovie(title)).thenReturn(0);
@@ -79,7 +80,7 @@ class MovieServiceTest {
   }
 
   @Test
-  void shouldReturnTrueWhenUpdateMovieIsOk() {
+  void shouldReturnTrueWhenUpdateMovieIsOk() throws DatabaseException {
     // Given
     val movie = Movie.builder().title("title").build();
     when(iObtainMovie.updateMovie(movie)).thenReturn(1);
@@ -92,7 +93,7 @@ class MovieServiceTest {
   }
 
   @Test
-  void shouldReturnFalseWhenUpdateMovieNotOk() {
+  void shouldReturnFalseWhenUpdateMovieNotOk() throws DatabaseException {
     // Given
     val movie = Movie.builder().title("title").build();
     when(iObtainMovie.updateMovie(movie)).thenReturn(0);
@@ -104,4 +105,33 @@ class MovieServiceTest {
     assertThat(result).isFalse();
   }
 
+  @Test
+  void shouldCreateMovieWhenMovieDoesNotExist() throws FunctionalException, DatabaseException {
+    // Given
+    val title = "title";
+    val author = "author";
+    val movie = Movie.builder().title(title).author(author).build();
+    when(iObtainMovie.existsByTitleAndAuthor(title, author)).thenReturn(false);
+    when(iObtainMovie.createMovie(movie)).thenReturn(movie);
+
+    // When
+    val result = movieService.createMovie(movie);
+
+    // Then
+    assertThat(result).isEqualTo(movie);
+  }
+
+  @Test
+  void shouldThrowMovieAlreadyExistsException_whenMovieAlreadyExists() throws DatabaseException {
+    // Given
+    val title = "title";
+    val author = "author";
+    val movie = Movie.builder().title(title).author(author).build();
+    when(iObtainMovie.existsByTitleAndAuthor(title, author)).thenReturn(true);
+
+    // Then
+    assertThatThrownBy(() -> movieService.createMovie(movie))
+        .isInstanceOf(MovieAlreadyExistsException.class)
+        .hasMessageContaining(String.format("Movie %s by %s already exists", title, author));
+  }
 }
