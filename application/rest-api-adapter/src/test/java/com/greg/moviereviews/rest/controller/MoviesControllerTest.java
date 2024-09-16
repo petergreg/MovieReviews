@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.notFound;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
@@ -57,7 +58,7 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturnMovieResponse_whenCreateMovieOk() {
+  void shouldReturnMovieResponse_whenCreateMovieOk() throws FunctionalException {
     // Given
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
     val apiMovie = mock(Movie.class);

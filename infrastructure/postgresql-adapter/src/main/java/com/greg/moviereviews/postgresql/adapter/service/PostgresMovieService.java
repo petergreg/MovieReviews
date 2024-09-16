@@ -24,6 +24,11 @@ public class PostgresMovieService implements IObtainMovie {
     return movieRepository.findByTitle(title).stream().map(movieMapper::entityToDomain).toList();
   }
 
+  @Override
+  public boolean existsByTitleAndAuthor(final String title, final String author) {
+    return movieRepository.findByTitleAndAuthor(title, author).isPresent();
+  }
+
   public Movie createMovie(final Movie movie) {
     return Optional.of(movieRepository.save(movieMapper.domainToEntity(movie)))
         .map(movieMapper::entityToDomain)

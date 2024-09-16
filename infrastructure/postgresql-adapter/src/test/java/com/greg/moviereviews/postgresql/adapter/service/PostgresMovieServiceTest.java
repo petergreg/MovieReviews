@@ -1,6 +1,7 @@
 package com.greg.moviereviews.postgresql.adapter.service;
 
 import static java.util.Collections.emptyList;
+import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -59,7 +60,9 @@ class PostgresMovieServiceTest {
   void shouldCreateMovie() {
     // Given
     val movieEntity = mock(MovieEntity.class);
-    val domainMovie = mock(Movie.class);
+    val title = "title";
+    val author = "author";
+    val domainMovie = Movie.builder().title(title).author(author).build();
 
     when(movieMapper.domainToEntity(domainMovie)).thenReturn(movieEntity);
     when(movieMapper.entityToDomain(movieEntity)).thenReturn(domainMovie);

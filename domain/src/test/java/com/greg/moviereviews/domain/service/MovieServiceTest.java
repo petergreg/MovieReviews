@@ -2,14 +2,14 @@ package com.greg.moviereviews.domain.service;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieAlreadyExistsException;
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
-
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -104,4 +104,33 @@ class MovieServiceTest {
     assertThat(result).isFalse();
   }
 
+  @Test
+  void shouldCreateMovieWhenMovieDoesNotExist() throws FunctionalException {
+    // Given
+    val title = "title";
+    val author = "author";
+    val movie = Movie.builder().title(title).author(author).build();
+    when(iObtainMovie.existsByTitleAndAuthor(title, author)).thenReturn(false);
+    when(iObtainMovie.createMovie(movie)).thenReturn(movie);
+
+    // When
+    val result = movieService.createMovie(movie);
+
+    // Then
+    assertThat(result).isEqualTo(movie);
+  }
+
+  @Test
+  void shouldThrowMovieAlreadyExistsExceptionWhenMovieAlreadyExists() {
+    // Given
+    val title = "title";
+    val author = "author";
+    val movie = Movie.builder().title(title).author(author).build();
+    when(iObtainMovie.existsByTitleAndAuthor(title, author)).thenReturn(true);
+
+    // Then
+    assertThatThrownBy(() -> movieService.createMovie(movie))
+        .isInstanceOf(MovieAlreadyExistsException.class)
+        .hasMessageContaining("Movie %s with title %s already exists".formatted(title, author));
+  }
 }
