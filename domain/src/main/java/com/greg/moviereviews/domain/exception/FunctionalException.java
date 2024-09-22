@@ -9,7 +9,7 @@ public abstract class FunctionalException extends Exception {
   public static class MovieAlreadyExistsException extends FunctionalException {
 
     public MovieAlreadyExistsException(final String movieTitle, final String movieAuthor) {
-      super(String.format("Movie %s with title %s already exists", movieTitle, movieAuthor));
+      super(String.format("Movie %s by %s already exists", movieTitle, movieAuthor));
     }
   }
 }
