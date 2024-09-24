@@ -1,5 +1,7 @@
 package com.greg.moviereviews.rest.controller;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
@@ -28,16 +30,15 @@ public class MoviesController {
   private ApiMovieMapper movieMapper;
 
   @GetMapping("/{title}")
-  public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) {
-    return ResponseEntity.ok(iRequestMovie
-        .getMovie(title)
-            .stream().map(movieMapper::toApiMovie)
-            .toList());
-//        .orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) throws DatabaseException {
+    return ResponseEntity.ok(
+        iRequestMovie.getMovie(title).stream().map(movieMapper::toApiMovie).toList());
+    //        .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping("/")
-  public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
+  public ResponseEntity<Movie> createMovie(@RequestBody Movie movie)
+      throws FunctionalException, DatabaseException {
     return Optional.ofNullable(iRequestMovie.createMovie(movieMapper.toDomainMovie(movie)))
         .map(domainMovie -> movieMapper.toApiMovie(domainMovie))
         .map(ResponseEntity::ok)
@@ -45,14 +46,14 @@ public class MoviesController {
   }
 
   @DeleteMapping("/{title}")
-  public ResponseEntity<Void> deleteMovie(@PathVariable String title) {
+  public ResponseEntity<Void> deleteMovie(@PathVariable String title) throws DatabaseException {
     return iRequestMovie.deleteMovie(title)
         ? ResponseEntity.noContent().build()
         : ResponseEntity.notFound().build();
   }
 
   @PutMapping("/{title}")
-  public ResponseEntity<Void> updateMovie(@RequestBody Movie movie) {
+  public ResponseEntity<Void> updateMovie(@RequestBody Movie movie) throws DatabaseException {
     return iRequestMovie.updateMovie(movieMapper.toDomainMovie(movie))
         ? ResponseEntity.noContent().build()
         : ResponseEntity.notFound().build();

@@ -15,6 +15,8 @@ public interface MovieRepository extends JpaRepositoryImplementation<MovieEntity
 
   public List<MovieEntity> findByTitle(final String title);
 
+  public Optional<MovieEntity> findByTitleAndAuthor(final String title, final String author);
+
   public int deleteByTitle(final String title);
 
   @Modifying

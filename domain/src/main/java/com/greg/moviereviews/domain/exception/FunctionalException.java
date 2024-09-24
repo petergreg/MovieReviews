@@ -1,15 +1,15 @@
 package com.greg.moviereviews.domain.exception;
 
-abstract class FunctionalException extends Exception {
+public abstract class FunctionalException extends Exception {
 
-    public FunctionalException(String message, Throwable cause) {
-        super(message, cause);
+  public FunctionalException(final String message) {
+    super(message);
+  }
+
+  public static class MovieAlreadyExistsException extends FunctionalException {
+
+    public MovieAlreadyExistsException(final String movieTitle, final String movieAuthor) {
+      super(String.format("Movie %s by %s already exists", movieTitle, movieAuthor));
     }
-
-
-    public static class MovieAlreadyExists extends FunctionalException {
-        public MovieAlreadyExists(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
+  }
 }
