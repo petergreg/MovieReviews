@@ -12,6 +12,8 @@ import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseExcepti
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
+
+import java.net.URI;
 import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -64,6 +66,7 @@ class MoviesControllerTest {
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
     val apiMovie = mock(Movie.class);
 
+    when(apiMovie.getTitle()).thenReturn("title");
     when(iRequestMovie.createMovie(domainMovie)).thenReturn(domainMovie);
     when(movieMapper.toApiMovie(domainMovie)).thenReturn(apiMovie);
     when(movieMapper.toDomainMovie(apiMovie)).thenReturn(domainMovie);
@@ -72,7 +75,7 @@ class MoviesControllerTest {
     val result = moviesController.createMovie(apiMovie);
 
     // Then
-    assertThat(result).isEqualTo(ResponseEntity.ok(apiMovie));
+    assertThat(result).isEqualTo(ResponseEntity.created(URI.create("/movies/title")).body(apiMovie));
   }
 
   @Test
