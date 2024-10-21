@@ -6,6 +6,7 @@ import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.Movie;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import lombok.Builder;
@@ -33,7 +34,6 @@ public class MoviesController {
   public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) throws DatabaseException {
     return ResponseEntity.ok(
         iRequestMovie.getMovie(title).stream().map(movieMapper::toApiMovie).toList());
-    //        .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping("/")
@@ -41,7 +41,9 @@ public class MoviesController {
       throws FunctionalException, DatabaseException {
     return Optional.ofNullable(iRequestMovie.createMovie(movieMapper.toDomainMovie(movie)))
         .map(domainMovie -> movieMapper.toApiMovie(domainMovie))
-        .map(ResponseEntity::ok)
+        .map(
+            apiMovie ->
+                ResponseEntity.created(URI.create("/movies/" + apiMovie.getTitle())).body(apiMovie))
         .orElseThrow(RuntimeException::new);
   }
 
