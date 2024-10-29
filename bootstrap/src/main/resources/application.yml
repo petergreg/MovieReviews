@@ -15,5 +15,4 @@ spring:
 
 #logging:
 #  level:
-#  level:
 #    org.springframework.boot: DEBUG
