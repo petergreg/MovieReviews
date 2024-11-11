@@ -1,12 +1,12 @@
 package com.greg.moviereviews.domain.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class Review {
-  private final Long id;
-  private final String author;
-  private final String reviewBody;
+  Long id;
+  String author;
+  String reviewBody;
 }

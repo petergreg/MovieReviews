@@ -2,11 +2,12 @@ package com.greg.moviereviews.rest.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class Review {
-  final Long id;
-  final String author;
-  final String reviewBody;
+  Long id;
+  String author;
+  String reviewBody;
 }
