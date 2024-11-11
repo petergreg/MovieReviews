@@ -8,11 +8,12 @@ import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.notFound;
 
 import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
 import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
+import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
-import com.greg.moviereviews.rest.model.Movie;
-
+import com.greg.moviereviews.rest.model.ApiMovie;
 import java.net.URI;
 import java.util.List;
 import lombok.val;
@@ -35,7 +36,7 @@ class MoviesControllerTest {
     // Given
     val title = "title";
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
-    val apiMovie = mock(Movie.class);
+    val apiMovie = mock(ApiMovie.class);
 
     when(iRequestMovie.getMovie(title)).thenReturn(List.of(domainMovie));
     when(movieMapper.toApiMovie(domainMovie)).thenReturn(apiMovie);
@@ -64,7 +65,7 @@ class MoviesControllerTest {
   void shouldReturnMovieResponse_whenCreateMovieOk() throws FunctionalException, DatabaseException {
     // Given
     val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
-    val apiMovie = mock(Movie.class);
+    val apiMovie = mock(ApiMovie.class);
 
     when(apiMovie.getTitle()).thenReturn("title");
     when(iRequestMovie.createMovie(domainMovie)).thenReturn(domainMovie);
@@ -75,7 +76,8 @@ class MoviesControllerTest {
     val result = moviesController.createMovie(apiMovie);
 
     // Then
-    assertThat(result).isEqualTo(ResponseEntity.created(URI.create("/movies/title")).body(apiMovie));
+    assertThat(result)
+        .isEqualTo(ResponseEntity.created(URI.create("/movies/title")).body(apiMovie));
   }
 
   @Test
@@ -105,34 +107,20 @@ class MoviesControllerTest {
   }
 
   @Test
-  void shouldReturnMovieResponse_whenUpdateMovieOk() throws DatabaseException {
+  void shouldReturnMovieResponse_whenUpdateMovieOk()
+      throws DatabaseException, MovieDoesNotExistException {
     // Given
-    val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
-    val apiMovie = mock(Movie.class);
+    val domainMovie = Movie.builder().title("title").author("author").build();
+    val apiMovie = ApiMovie.builder().title("title").author("author").build();
 
     when(movieMapper.toDomainMovie(apiMovie)).thenReturn(domainMovie);
-    when(iRequestMovie.updateMovie(domainMovie)).thenReturn(true);
+    when(iRequestMovie.updateMovie(domainMovie)).thenReturn(domainMovie);
+    when(movieMapper.toApiMovie(domainMovie)).thenReturn(apiMovie);
 
     // When
     val result = moviesController.updateMovie(apiMovie);
 
     // Then
-    assertThat(result).isEqualTo(noContent().build());
-  }
-
-  @Test
-  void shouldReturn404_whenUpdateMovieNotOk() throws DatabaseException {
-    // Given
-    val domainMovie = mock(com.greg.moviereviews.domain.model.Movie.class);
-    val apiMovie = mock(Movie.class);
-
-    when(movieMapper.toDomainMovie(apiMovie)).thenReturn(domainMovie);
-    when(iRequestMovie.updateMovie(domainMovie)).thenReturn(false);
-
-    // When
-    val result = moviesController.updateMovie(apiMovie);
-
-    // Then
-    assertThat(result).isEqualTo(notFound().build());
+    assertThat(result).isEqualTo(ResponseEntity.ok(apiMovie));
   }
 }

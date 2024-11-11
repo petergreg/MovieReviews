@@ -11,7 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.greg.moviereviews.rest.model.Movie;
+import com.greg.moviereviews.rest.model.ApiMovie;
+import com.greg.moviereviews.rest.model.ApiReview;
+import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +46,10 @@ public class MovieReviewsApplicationIT {
 
     val title = "title";
     val author = "author";
-    val review = "review";
-    val movie = Movie.builder().title(title).author(author).review(review).build();
+    val reviewAuthor = "reviewAuthor";
+    val reviewBody = "reviewBody";
+    val apiReview = ApiReview.builder().author(reviewAuthor).reviewBody(reviewBody).build();
+    val movie = ApiMovie.builder().title(title).author(author).reviews(List.of(apiReview)).build();
     val movieJson = objectMapper.writeValueAsString(movie);
 
     // When & Then
@@ -54,15 +58,16 @@ public class MovieReviewsApplicationIT {
         .andExpect(status().isCreated())
         .andExpect(header().string("Location", "/movies/title"))
         .andExpect(jsonPath("$.title").value(title))
-        .andExpect(jsonPath("$.author").value(author))
-        .andExpect(jsonPath("$.review").value(review));
+        .andExpect(jsonPath("$.reviews[0].author").value(reviewAuthor))
+        .andExpect(jsonPath("$.reviews[0].reviewBody").value(reviewBody));
 
     mockMvc
         .perform(get("/movies/title"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].title").value(title))
         .andExpect(jsonPath("$[0].author").value(author))
-        .andExpect(jsonPath("$[0].review").value(review));
+        .andExpect(jsonPath("$[0].reviews[0].author").value(reviewAuthor))
+        .andExpect(jsonPath("$[0].reviews[0].reviewBody").value(reviewBody));
   }
 
   @Test
@@ -71,10 +76,14 @@ public class MovieReviewsApplicationIT {
     // Given
     val title = "title";
     val author = "author";
-    val review = "review";
-    val newReview = "newReview";
-    val movie = Movie.builder().title(title).author(author).review(review).build();
-    val newMovie = Movie.builder().title(title).author(author).review(newReview).build();
+    val apiReview = ApiReview.builder().author("reviewAuthor").reviewBody("reviewBody").build();
+    val newReviewAuthor = "newReviewAuthor";
+    val newReviewBody = "newReviewBody";
+    val newApiReview =
+        ApiReview.builder().author(newReviewAuthor).reviewBody(newReviewBody).build();
+    val movie = ApiMovie.builder().title(title).author(author).reviews(List.of(apiReview)).build();
+    val newMovie =
+        ApiMovie.builder().title(title).author(author).reviews(List.of(newApiReview)).build();
     val movieJson = objectMapper.writeValueAsString(movie);
     val newMovieJson = objectMapper.writeValueAsString(newMovie);
 
@@ -82,15 +91,32 @@ public class MovieReviewsApplicationIT {
     mockMvc.perform(post("/movies/").contentType(APPLICATION_JSON).content(movieJson));
 
     mockMvc
-        .perform(put("/movies/" + title).contentType(APPLICATION_JSON).content(newMovieJson))
-        .andExpect(status().isNoContent());
-
-    mockMvc
-        .perform(get("/movies/title"))
+        .perform(put("/movies/").contentType(APPLICATION_JSON).content(newMovieJson))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].title").value(title))
-        .andExpect(jsonPath("$[0].author").value(author))
-        .andExpect(jsonPath("$[0].review").value(newReview));
+        .andExpect(jsonPath("$.title").value(title))
+        .andExpect(jsonPath("$.author").value(author))
+        .andExpect(jsonPath("$.reviews[0].author").value(newReviewAuthor))
+        .andExpect(jsonPath("$.reviews[0].reviewBody").value(newReviewBody));
+  }
+
+  @Test
+  public void shouldBe404_whenUpdatintUnknownMovie() throws Exception {
+
+    // Given
+    val title = "unknownTitle";
+    val author = "unknownAuthor";
+    val newReviewAuthor = "newReviewAuthor";
+    val newReviewBody = "newReviewBody";
+    val newApiReview =
+        ApiReview.builder().author(newReviewAuthor).reviewBody(newReviewBody).build();
+    val newMovie =
+        ApiMovie.builder().title(title).author(author).reviews(List.of(newApiReview)).build();
+    val newMovieJson = objectMapper.writeValueAsString(newMovie);
+
+    // When & Then
+    mockMvc
+        .perform(put("/movies/").contentType(APPLICATION_JSON).content(newMovieJson))
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -99,8 +125,8 @@ public class MovieReviewsApplicationIT {
     // Given
     val title = "title";
     val author = "author";
-    val review = "review";
-    val movie = Movie.builder().title(title).author(author).review(review).build();
+    val apiReview = ApiReview.builder().author("reviewAuthor").reviewBody("reviewBody").build();
+    val movie = ApiMovie.builder().title(title).author(author).reviews(List.of(apiReview)).build();
     val movieJson = objectMapper.writeValueAsString(movie);
 
     // When & Then

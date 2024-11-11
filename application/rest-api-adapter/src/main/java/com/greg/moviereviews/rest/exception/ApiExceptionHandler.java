@@ -1,6 +1,8 @@
 package com.greg.moviereviews.rest.exception;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
 import com.greg.moviereviews.domain.exception.FunctionalException.MovieAlreadyExistsException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
 import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +15,11 @@ public class ApiExceptionHandler {
   public ResponseEntity<ApiException> handleException(MovieAlreadyExistsException e) {
     return ResponseEntity.badRequest()
         .body(ApiException.builder().message(e.getMessage()).throwable(e).build());
+  }
+
+  @ExceptionHandler(value = {MovieDoesNotExistException.class})
+  public ResponseEntity<ApiException> handleException(MovieDoesNotExistException e) {
+    return ResponseEntity.notFound().build();
   }
 
   @ExceptionHandler(value = {DatabaseException.class})
