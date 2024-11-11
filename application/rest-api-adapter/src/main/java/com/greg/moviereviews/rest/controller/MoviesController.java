@@ -1,10 +1,11 @@
 package com.greg.moviereviews.rest.controller;
 
 import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
 import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
-import com.greg.moviereviews.rest.model.Movie;
+import com.greg.moviereviews.rest.model.ApiMovie;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 import java.util.List;
@@ -31,13 +32,14 @@ public class MoviesController {
   private ApiMovieMapper movieMapper;
 
   @GetMapping("/{title}")
-  public ResponseEntity<List<Movie>> getMovie(@PathVariable String title) throws DatabaseException {
+  public ResponseEntity<List<ApiMovie>> getMovie(@PathVariable String title)
+      throws DatabaseException {
     return ResponseEntity.ok(
         iRequestMovie.getMovie(title).stream().map(movieMapper::toApiMovie).toList());
   }
 
   @PostMapping("/")
-  public ResponseEntity<Movie> createMovie(@RequestBody Movie movie)
+  public ResponseEntity<ApiMovie> createMovie(@RequestBody ApiMovie movie)
       throws FunctionalException, DatabaseException {
     return Optional.ofNullable(iRequestMovie.createMovie(movieMapper.toDomainMovie(movie)))
         .map(domainMovie -> movieMapper.toApiMovie(domainMovie))
@@ -54,10 +56,12 @@ public class MoviesController {
         : ResponseEntity.notFound().build();
   }
 
-  @PutMapping("/{title}")
-  public ResponseEntity<Void> updateMovie(@RequestBody Movie movie) throws DatabaseException {
-    return iRequestMovie.updateMovie(movieMapper.toDomainMovie(movie))
-        ? ResponseEntity.noContent().build()
-        : ResponseEntity.notFound().build();
+  @PutMapping("/")
+  public ResponseEntity<ApiMovie> updateMovie(@RequestBody ApiMovie apiMovie)
+      throws DatabaseException, MovieDoesNotExistException {
+    return Optional.of(iRequestMovie.updateMovie(movieMapper.toDomainMovie(apiMovie)))
+        .map(domainMovie -> movieMapper.toApiMovie(domainMovie))
+        .map(ResponseEntity::ok)
+        .orElse(null);
   }
 }

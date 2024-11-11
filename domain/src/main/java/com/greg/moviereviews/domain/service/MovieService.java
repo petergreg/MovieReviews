@@ -1,6 +1,7 @@
 package com.greg.moviereviews.domain.service;
 
 import com.greg.moviereviews.domain.exception.FunctionalException.MovieAlreadyExistsException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
 import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
@@ -16,23 +17,27 @@ public class MovieService implements IRequestMovie {
 
   @Override
   public List<Movie> getMovie(final String title) throws DatabaseException {
-    return iObtainMovie.getMovie(title);
+    return iObtainMovie.getMoviesByTitle(title);
   }
 
   @Override
-  public Movie createMovie(final Movie movie) throws MovieAlreadyExistsException, DatabaseException {
+  public Movie createMovie(final Movie movie)
+      throws MovieAlreadyExistsException, DatabaseException {
 
     val exists = iObtainMovie.existsByTitleAndAuthor(movie.getTitle(), movie.getAuthor());
     if (exists) {
-      throw new MovieAlreadyExistsException(
-          movie.getTitle(), movie.getAuthor());
+      throw new MovieAlreadyExistsException(movie.getTitle(), movie.getAuthor());
     }
     return iObtainMovie.createMovie(movie);
   }
 
   @Override
-  public boolean updateMovie(final Movie movie) throws DatabaseException {
-    return iObtainMovie.updateMovie(movie) > 0;
+  public Movie updateMovie(final Movie movie) throws DatabaseException, MovieDoesNotExistException {
+    val exists = iObtainMovie.existsByTitleAndAuthor(movie.getTitle(), movie.getAuthor());
+    if (!exists) {
+      throw new MovieDoesNotExistException(movie.getTitle(), movie.getAuthor());
+    }
+    return iObtainMovie.updateMovie(movie);
   }
 
   @Override

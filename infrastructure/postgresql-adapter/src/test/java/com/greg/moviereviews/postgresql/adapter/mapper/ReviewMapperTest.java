@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.greg.moviereviews.domain.model.Review;
 import com.greg.moviereviews.postgresql.adapter.model.ReviewEntity;
+import java.util.UUID;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class ReviewMapperTest {
     // Given
     val author = "author";
     val reviewBody = "reviewBody";
-    val id = 1L;
+    val id = UUID.randomUUID();
     val reviewEntity = ReviewEntity.builder().id(id).author(author).reviewBody(reviewBody).build();
 
     // When
@@ -32,7 +33,7 @@ public class ReviewMapperTest {
     // Given
     val author = "author";
     val reviewBody = "reviewBody";
-    val id = 1L;
+    val id = UUID.randomUUID();
     val domainMovie = Review.builder().id(id).author(author).reviewBody(reviewBody).build();
 
     // When
