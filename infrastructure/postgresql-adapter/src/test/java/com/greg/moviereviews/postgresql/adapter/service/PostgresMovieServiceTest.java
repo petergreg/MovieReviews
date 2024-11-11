@@ -143,12 +143,16 @@ class PostgresMovieServiceTest {
   }
 
   @Test
-  void shouldReturnMinusOneWhenUpdateMovieReturnsMinusOne() throws DatabaseException {
+  void shouldReturn1_whenUpdateMovieIsOk() throws DatabaseException {
     // Given
-    val movie = Movie.builder().title("title").build();
-    val movieEntity = movieMapper.domainToEntity(movie);
+    val title = "title";
+    val author = "author";
+    val review = "review";
+    val movie = Movie.builder().title(title).author(author).review(review).build();
+    val movieEntity = MovieEntity.builder().title(title).author(author).review(review).build();
+
     when(movieMapper.domainToEntity(movie)).thenReturn(movieEntity);
-    when(movieRepository.updateByTitle(movieEntity)).thenReturn(1);
+    when(movieRepository.updateById(movieEntity)).thenReturn(1);
 
     // When
     val result = postgresMovieService.updateMovie(movie);
@@ -162,8 +166,12 @@ class PostgresMovieServiceTest {
     // Given
     val title = "title";
     val author = "author";
+    val review = "review";
     val movie = Movie.builder().title(title).author(author).build();
-    when(movieRepository.updateByTitle(any())).thenThrow(new RuntimeException("DB error"));
+    val movieEntity = MovieEntity.builder().title(title).author(author).review(review).build();
+
+    when(movieMapper.domainToEntity(movie)).thenReturn(movieEntity);
+    when(movieRepository.updateById(any())).thenThrow(new RuntimeException("DB error"));
 
     // When & Then
     assertThatThrownBy(() -> postgresMovieService.updateMovie(movie))
