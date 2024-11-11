@@ -1,18 +1,23 @@
 package com.greg.moviereviews.domain.port.obtain;
 
-import com.greg.moviereviews.domain.exception.TechnicalException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
+import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.model.Movie;
 import java.util.List;
+import java.util.Optional;
 
 public interface IObtainMovie {
 
-  public List<Movie> getMovie(final String title) throws TechnicalException.DatabaseException;
+  List<Movie> getMoviesByTitle(final String title) throws DatabaseException;
 
-  public boolean existsByTitleAndAuthor(final String title, final String author) throws TechnicalException.DatabaseException;
+  Optional<Movie> getMovie(String title, String author) throws DatabaseException;
 
-  public Movie createMovie(final Movie movie) throws TechnicalException.DatabaseException;
+  boolean existsByTitleAndAuthor(final String title, final String author)
+      throws DatabaseException;
 
-  public int updateMovie(final Movie movie) throws TechnicalException.DatabaseException;
+  Movie createMovie(final Movie movie) throws DatabaseException;
 
-  public int deleteMovie(final String title) throws TechnicalException.DatabaseException;
+  Movie updateMovie(final Movie movie) throws DatabaseException, MovieDoesNotExistException;
+
+  int deleteMovie(final String title) throws DatabaseException;
 }

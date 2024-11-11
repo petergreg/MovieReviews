@@ -3,12 +3,11 @@ databaseChangeLog:
       id: 001_init_schema
       author: gpeterschmitt
       changes:
-
         - createTable:
             tableName: movie
             columns:
               - column:
-                  name: movie_id
+                  name: id
                   type: uuid
                   constraints:
                     primaryKey: true
@@ -23,20 +22,12 @@ databaseChangeLog:
                   type: varchar(40)
                   constraints:
                     nullable: false
-              - column:
-                  name: review
-                  type: text
-#        -  addPrimaryKey:
-#             tableName: movie
-#             columnNames:  title, author
-#             constraintName:  pk_movie
-#             schemaName:  public
         - createTable:
             tableName: review
             columns:
               - column:
-                  name: review_id
-                  type: bigint
+                  name: id
+                  type: uuid
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -48,9 +39,12 @@ databaseChangeLog:
               - column:
                   name: review_body
                   type: text
+              - column:
+                  name: movie_id
+                  type: UUID
 #        - addForeignKeyConstraint:
 #            baseTableName: review
-#            baseColumnNames: review_id
+#            baseColumnNames: movie_id
 #            referencedTableName: movie
 #            referencedColumnNames: movie_id
 #            onDelete: CASCADE

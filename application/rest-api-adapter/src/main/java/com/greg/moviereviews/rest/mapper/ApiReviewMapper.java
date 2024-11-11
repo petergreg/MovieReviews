@@ -1,6 +1,7 @@
 package com.greg.moviereviews.rest.mapper;
 
 import com.greg.moviereviews.domain.model.Review;
+import com.greg.moviereviews.rest.model.ApiReview;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -9,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Builder
 @Component
 public class ApiReviewMapper {
-  public com.greg.moviereviews.rest.model.Review toApiReview(final Review domainReview) {
-    return com.greg.moviereviews.rest.model.Review.builder()
+  public ApiReview toApiReview(final Review domainReview) {
+    return ApiReview.builder()
         .id(domainReview.getId())
         .author(domainReview.getAuthor())
         .reviewBody(domainReview.getReviewBody())
         .build();
   }
 
-  public Review toDomainReview(final com.greg.moviereviews.rest.model.Review apiReview) {
+  public Review toDomainReview(final ApiReview apiReview) {
     return Review.builder()
         .id(apiReview.getId())
         .author(apiReview.getAuthor())

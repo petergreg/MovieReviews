@@ -1,13 +1,14 @@
 package com.greg.moviereviews.rest.model;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
+
+import java.util.UUID;
 
 @Value
 @Builder
-public class Review {
-  Long id;
+public class ApiReview {
+  UUID id;
   String author;
   String reviewBody;
 }

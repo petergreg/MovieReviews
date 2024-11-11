@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.greg.moviereviews.domain.exception.FunctionalException;
 import com.greg.moviereviews.domain.exception.FunctionalException.MovieAlreadyExistsException;
+import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
 import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.domain.port.obtain.IObtainMovie;
@@ -30,7 +31,7 @@ class MovieServiceTest {
     // Given
     val title = "title";
     val movie = Movie.builder().title(title).build();
-    when(iObtainMovie.getMovie(title)).thenReturn(List.of(movie));
+    when(iObtainMovie.getMoviesByTitle(title)).thenReturn(List.of(movie));
 
     // When
     val result = movieService.getMovie(title);
@@ -44,7 +45,7 @@ class MovieServiceTest {
     // Given
     val title = "unknownTitle";
     val movie = Movie.builder().title(title).build();
-    when(iObtainMovie.getMovie(title)).thenReturn(emptyList());
+    when(iObtainMovie.getMoviesByTitle(title)).thenReturn(emptyList());
 
     // When
     val result = movieService.getMovie(title);
@@ -80,29 +81,33 @@ class MovieServiceTest {
   }
 
   @Test
-  void shouldReturnTrueWhenUpdateMovieIsOk() throws DatabaseException {
+  void shouldReturnTrueWhenUpdateMovieIsOk() throws DatabaseException, MovieDoesNotExistException {
     // Given
-    val movie = Movie.builder().title("title").build();
-    when(iObtainMovie.updateMovie(movie)).thenReturn(1);
+    val title = "title";
+    val author = "author";
+    val movie = Movie.builder().title(title).author(author).build();
+    when(iObtainMovie.existsByTitleAndAuthor(title, author)).thenReturn(true);
+    when(iObtainMovie.updateMovie(movie)).thenReturn(movie);
 
     // When
     val result = movieService.updateMovie(movie);
 
     // Then
-    assertThat(result).isTrue();
+    assertThat(result).isEqualTo(movie);
   }
 
   @Test
-  void shouldReturnFalseWhenUpdateMovieNotOk() throws DatabaseException {
+  void shouldThrowException_WhenMovieDoesNotExist()
+      throws DatabaseException {
     // Given
-    val movie = Movie.builder().title("title").build();
-    when(iObtainMovie.updateMovie(movie)).thenReturn(0);
-
-    // When
-    val result = movieService.updateMovie(movie);
+    val title = "title";
+    val author = "author";
+    val movie = Movie.builder().title(title).author(author).build();
+    when(iObtainMovie.existsByTitleAndAuthor(title, author)).thenReturn(false);
 
     // Then
-    assertThat(result).isFalse();
+    assertThatThrownBy(() -> movieService.updateMovie(movie))
+        .isEqualTo(new MovieDoesNotExistException(title, author));
   }
 
   @Test

@@ -1,6 +1,6 @@
 package com.greg.moviereviews.rest.mapper;
 
-import com.greg.moviereviews.rest.model.Movie;
+import com.greg.moviereviews.rest.model.ApiMovie;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -12,20 +12,20 @@ public class ApiMovieMapper {
 
   ApiReviewMapper reviewMapper;
 
-  public Movie toApiMovie(final com.greg.moviereviews.domain.model.Movie domainMovie) {
-    return Movie.builder()
+  public ApiMovie toApiMovie(final com.greg.moviereviews.domain.model.Movie domainMovie) {
+    return ApiMovie.builder()
         .id(domainMovie.getId())
         .author(domainMovie.getAuthor())
         .title(domainMovie.getTitle())
-        .review(domainMovie.getReview())
+        .reviews(domainMovie.getReviews().stream().map(reviewMapper::toApiReview).toList())
         .build();
   }
 
-  public com.greg.moviereviews.domain.model.Movie toDomainMovie(final Movie apiMovie) {
+  public com.greg.moviereviews.domain.model.Movie toDomainMovie(final ApiMovie apiMovie) {
     return com.greg.moviereviews.domain.model.Movie.builder()
         .title(apiMovie.getTitle())
         .author(apiMovie.getAuthor())
-        .review(apiMovie.getReview())
+        .reviews(apiMovie.getReviews().stream().map(reviewMapper::toDomainReview).toList())
         .build();
   }
 }

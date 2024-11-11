@@ -1,7 +1,9 @@
 package com.greg.moviereviews.domain.model;
 
+import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 
 @Value
@@ -10,5 +12,5 @@ public class Movie {
   UUID id;
   String author;
   String title;
-  String review;
+  List<Review> reviews;
 }
