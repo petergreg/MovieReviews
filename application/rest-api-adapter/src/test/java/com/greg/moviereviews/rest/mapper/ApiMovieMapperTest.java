@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 @ExtendWith(MockitoExtension.class)
 class ApiMovieMapperTest {
 
@@ -23,14 +25,15 @@ class ApiMovieMapperTest {
     // Given
     val review = "apiReview";
     val domainReview = mock(Review.class);
+    val id = UUID.randomUUID();
     val apiMovie =
         com.greg.moviereviews.rest.model.Movie.builder()
-            //            .id(1L)
+            .id(id)
             .author("author")
             .title("title")
             .review(review)
             .build();
-    val domainMovie = Movie.builder().author("author").title("title").review(review).build();
+    val domainMovie = Movie.builder().id(id).author("author").title("title").review(review).build();
 
     //    when(reviewMapper.toApiReview(domainReview)).thenReturn(apiReview);
 

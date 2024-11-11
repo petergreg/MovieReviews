@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.greg.moviereviews.domain.model.Movie;
 import com.greg.moviereviews.postgresql.adapter.model.MovieEntity;
+import java.util.UUID;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,10 +22,11 @@ public class MovieMapperTest {
   void shouldMapReviewFromEntityToDomain() {
     // Given
     val review = "review";
-    //    val id = 1L;
-    //    val domainReview = mock(Review.class);
+    val id = UUID.randomUUID();
+    //        val domainReview = mock(Review.class);
     val title = "title";
-    val movieEntity = MovieEntity.builder().author("author").title(title).review(review).build();
+    val movieEntity =
+        MovieEntity.builder().id(id).author("author").title(title).review(review).build();
 
     //    when(reviewMapper.entityToDomain(review)).thenReturn(domainReview);
 
@@ -33,7 +35,7 @@ public class MovieMapperTest {
 
     // Then
     assertThat(result)
-        .isEqualTo(Movie.builder().author("author").title(title).review(review).build());
+        .isEqualTo(Movie.builder().id(id).author("author").title(title).review(review).build());
   }
 
   @Test
@@ -43,7 +45,7 @@ public class MovieMapperTest {
     //    val domainReview = mock(Review.class);
     val title = "title";
     val author = "author";
-    val domainEntity = Movie.builder().author("author").title(title).review(review).build();
+    val domainEntity = Movie.builder().author(author).title(title).review(review).build();
 
     //    when(reviewMapper.entityToDomain(review)).thenReturn(domainReview);
 
@@ -52,6 +54,6 @@ public class MovieMapperTest {
 
     // Then
     assertThat(result)
-        .isEqualTo(MovieEntity.builder().author("author").title(title).review(review).build());
+        .isEqualTo(MovieEntity.builder().author(author).title(title).review(review).build());
   }
 }

@@ -3,15 +3,16 @@ databaseChangeLog:
       id: 001_init_schema
       author: gpeterschmitt
       changes:
+
         - createTable:
             tableName: movie
             columns:
-#              - column:
-#                  name: movie_id
-#                  type: bigint
-#                  constraints:
-#                    primaryKey: true
-#                    nullable: false
+              - column:
+                  name: movie_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
               - column:
                   name: title
                   type: varchar(40)
@@ -25,11 +26,11 @@ databaseChangeLog:
               - column:
                   name: review
                   type: text
-        -  addPrimaryKey:
-             tableName: movie
-             columnNames:  title, author
-             constraintName:  pk_movie
-             schemaName:  public
+#        -  addPrimaryKey:
+#             tableName: movie
+#             columnNames:  title, author
+#             constraintName:  pk_movie
+#             schemaName:  public
         - createTable:
             tableName: review
             columns:

@@ -54,7 +54,7 @@ public class PostgresMovieService implements IObtainMovie {
 
   public int updateMovie(final Movie movie) throws DatabaseException {
     try {
-      return movieRepository.updateById(movieMapper.domainToEntity(movie));
+      return movieRepository.updateByTitleAndAuthor(movieMapper.domainToEntity(movie));
     } catch (Exception e) {
       throw new DatabaseException(
           String.format("Error when updating movie %s by %s", movie.getTitle(), movie.getAuthor()),
