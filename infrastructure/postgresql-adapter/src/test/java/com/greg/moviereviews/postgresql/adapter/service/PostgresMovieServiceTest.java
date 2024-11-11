@@ -152,7 +152,7 @@ class PostgresMovieServiceTest {
     val movieEntity = MovieEntity.builder().title(title).author(author).review(review).build();
 
     when(movieMapper.domainToEntity(movie)).thenReturn(movieEntity);
-    when(movieRepository.updateById(movieEntity)).thenReturn(1);
+    when(movieRepository.updateByTitleAndAuthor(movieEntity)).thenReturn(1);
 
     // When
     val result = postgresMovieService.updateMovie(movie);
@@ -171,7 +171,7 @@ class PostgresMovieServiceTest {
     val movieEntity = MovieEntity.builder().title(title).author(author).review(review).build();
 
     when(movieMapper.domainToEntity(movie)).thenReturn(movieEntity);
-    when(movieRepository.updateById(any())).thenThrow(new RuntimeException("DB error"));
+    when(movieRepository.updateByTitleAndAuthor(any())).thenThrow(new RuntimeException("DB error"));
 
     // When & Then
     assertThatThrownBy(() -> postgresMovieService.updateMovie(movie))

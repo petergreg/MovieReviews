@@ -21,6 +21,6 @@ public interface MovieRepository extends JpaRepositoryImplementation<MovieEntity
 
   @Modifying
   @Query("UPDATE MovieEntity m SET m.review = :#{#movie.review} WHERE m.title = :#{#movie.title} AND m.author = :#{#movie.author}")
-  int updateById(MovieEntity movie);
+  int updateByTitleAndAuthor(MovieEntity movie);
 
 }
