@@ -12,6 +12,15 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: azd
+
+
+
 
 logging.level:
   org.hibernate.orm.jdbc.bind: trace
