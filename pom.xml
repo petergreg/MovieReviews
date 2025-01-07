@@ -26,6 +26,8 @@
         <openapi.version>1.6.4</openapi.version>
         <springdoc.version>2.0.2</springdoc.version>
         <slf4j.version>2.0.6</slf4j.version>
+        <spring-kafka.version>3.1.2</spring-kafka.version>
+        <wiremock.version>3.0.1</wiremock.version>
     </properties>
 
     <dependencyManagement>
@@ -42,7 +44,7 @@
             <dependency>
                 <groupId>com.github.tomakehurst</groupId>
                 <artifactId>wiremock</artifactId>
-                <version>3.0.1</version>
+                <version>${wiremock.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.greg</groupId>
@@ -53,6 +55,21 @@
                 <groupId>com.greg</groupId>
                 <artifactId>rest-api-adapter</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.greg</groupId>
+                <artifactId>postgresql-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.greg</groupId>
+                <artifactId>kafka-consumer-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-kafka.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
