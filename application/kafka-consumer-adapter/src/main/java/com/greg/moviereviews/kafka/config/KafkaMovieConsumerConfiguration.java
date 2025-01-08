@@ -40,7 +40,9 @@ public class KafkaMovieConsumerConfiguration {
     return factory;
   }
 
-  @KafkaListener(topics = "local_movie", groupId = "azd")
+  @KafkaListener(
+      topics = "#{kafkaMovieConsumerProperties.movieTopic}",
+      groupId = "#{kafkaMovieConsumerProperties.groupId}")
   public void listenGroupFoo(String message) {
     System.out.println("\n\n -- Received Message in group AZD: " + message);
   }
