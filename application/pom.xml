@@ -15,4 +15,11 @@
         <module>rest-api-adapter</module>
         <module>kafka-consumer-adapter</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.greg</groupId>
+            <artifactId>domain</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApiMovieMapper {
 
-  ApiReviewMapper reviewMapper;
+  private final ApiReviewMapper reviewMapper;
 
   public ApiMovie toApiMovie(final com.greg.moviereviews.domain.model.Movie domainMovie) {
     return ApiMovie.builder()

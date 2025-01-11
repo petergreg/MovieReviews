@@ -14,9 +14,8 @@ spring:
         format_sql: true
   kafka:
     consumer:
+      movie-topic: local_movie
       bootstrap-servers: localhost:9092
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: azd
 
 logging.level:
