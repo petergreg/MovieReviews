@@ -9,12 +9,4 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>rest-api-adapter</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.greg</groupId>
-            <artifactId>domain</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

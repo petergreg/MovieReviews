@@ -1,5 +1,7 @@
 package com.greg.moviereviews.kafka.config;
 
+import com.greg.moviereviews.domain.exception.FunctionalException;
+import com.greg.moviereviews.domain.exception.TechnicalException;
 import com.greg.moviereviews.kafka.model.KafkaMovie;
 import com.greg.moviereviews.kafka.service.KafkaMovieService;
 import lombok.AllArgsConstructor;
@@ -10,13 +12,14 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class KafkaMovieConsumer {
 
-    private final KafkaMovieService kafkaMovieService;
+  private final KafkaMovieService kafkaMovieService;
 
-    @KafkaListener(
-            topics = "#{kafkaMovieConsumerProperties.movieTopic}",
-            groupId = "#{kafkaMovieConsumerProperties.groupId}",
-            containerFactory = "kafkaListenerContainerFactory")
-    public void kafkaMovieListener(KafkaMovie kafkaMovie) {
-        kafkaMovieService.consumeMovie(kafkaMovie);
-    }
+  @KafkaListener(
+      topics = "#{kafkaMovieConsumerProperties.movieTopic}",
+      groupId = "#{kafkaMovieConsumerProperties.groupId}",
+      containerFactory = "kafkaListenerContainerFactory")
+  public void kafkaMovieListener(KafkaMovie kafkaMovie)
+      throws FunctionalException, TechnicalException.DatabaseException {
+    kafkaMovieService.consumeMovie(kafkaMovie);
+  }
 }

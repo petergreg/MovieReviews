@@ -1,5 +1,8 @@
 package com.greg.moviereviews.kafka.model;
 
+import lombok.Builder;
+
 import java.util.UUID;
 
-public record KafkaReview(UUID id, String author, String reviewBody) {}
+@Builder
+public record KafkaReview(String author, String reviewBody) {}
