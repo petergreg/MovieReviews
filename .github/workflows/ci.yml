@@ -1,0 +1,37 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔄 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: ☕ Installation de Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: 🔧 Compilation du projet
+        run: mvn clean compile
+
+      - name: 🧪 Tests unitaires
+        run: mvn test
+
+      - name: 📦 Création du jar
+        run: mvn package
+
+      - name: 📤 Upload de l’artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: microservice-jar
+          path: bootstrap/target/*.jar
