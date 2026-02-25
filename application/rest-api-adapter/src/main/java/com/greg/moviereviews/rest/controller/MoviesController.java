@@ -6,6 +6,7 @@ import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseExcepti
 import com.greg.moviereviews.domain.port.request.IRequestMovie;
 import com.greg.moviereviews.rest.mapper.ApiMovieMapper;
 import com.greg.moviereviews.rest.model.ApiMovie;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 import java.util.List;
@@ -39,6 +40,10 @@ public class MoviesController {
   }
 
   @PostMapping("/")
+  @Operation(
+          summary = "Créer un nouveau film. Ne pas mettre les ID, ils seront donnés automatiquement par l'app",
+          description = "Permet d'ajouter un film. **Attention :** Ne pas fournir d'ID pour le film ou ses reviews, ils sont générés automatiquement."
+  )
   public ResponseEntity<ApiMovie> createMovie(@RequestBody ApiMovie movie)
       throws FunctionalException, DatabaseException {
     return Optional.ofNullable(iRequestMovie.createMovie(movieMapper.toDomainMovie(movie)))

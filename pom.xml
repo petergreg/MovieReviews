@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.5.7</version>
     </parent>
     <groupId>com.greg</groupId>
     <artifactId>movie-reviews</artifactId>
@@ -24,10 +24,11 @@
     <properties>
         <java.version>21</java.version>
         <openapi.version>1.6.4</openapi.version>
-        <springdoc.version>2.0.2</springdoc.version>
+        <springdoc.version>2.8.15</springdoc.version>
         <slf4j.version>2.0.6</slf4j.version>
         <spring-kafka.version>3.1.2</spring-kafka.version>
         <wiremock.version>3.0.1</wiremock.version>
+        <postgresql.version>42.3.8</postgresql.version>
     </properties>
 
     <dependencyManagement>
@@ -127,11 +128,32 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.3.8</version>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <scope>compile</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry.instrumentation</groupId>-->
+<!--            <artifactId>opentelemetry-spring-boot-starter</artifactId>-->
+<!--            <version>2.25.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry.contrib</groupId>-->
+<!--            <artifactId>opentelemetry-samplers</artifactId>-->
+<!--            <version>1.46.0-alpha</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
     </dependencies>
 

@@ -24,6 +24,9 @@ class MovieServiceTest {
 
   @Mock private IObtainMovie iObtainMovie;
 
+  @Mock
+  private MetricService metricService;
+
   @InjectMocks private MovieService movieService;
 
   @Test

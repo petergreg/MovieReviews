@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  AWS_REGION: eu-north-1
+  ECR_REPOSITORY: mon-microservice
+  IMAGE_TAG: latest
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,8 +35,8 @@ jobs:
       - name: 📦 Création du jar
         run: mvn package
 
-      - name: 📤 Upload de l’artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: microservice-jar
-          path: bootstrap/target/*.jar
+#      - name: 📤 Upload de l’artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: microservice-jar
+#          path: bootstrap/target/*.jar

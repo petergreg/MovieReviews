@@ -1,5 +1,9 @@
 package com.greg.moviereviews.domain.service;
 
+import static com.greg.moviereviews.domain.model.ActionOnMovieEnum.CREATE;
+import static com.greg.moviereviews.domain.model.ActionOnMovieEnum.DELETE;
+import static com.greg.moviereviews.domain.model.ActionOnMovieEnum.UPDATE;
+
 import com.greg.moviereviews.domain.exception.FunctionalException.MovieAlreadyExistsException;
 import com.greg.moviereviews.domain.exception.FunctionalException.MovieDoesNotExistException;
 import com.greg.moviereviews.domain.exception.TechnicalException.DatabaseException;
@@ -14,6 +18,7 @@ import lombok.val;
 public class MovieService implements IRequestMovie {
 
   private IObtainMovie iObtainMovie;
+  private MetricService metricService;
 
   @Override
   public List<Movie> getMovie(final String title) throws DatabaseException {
@@ -28,6 +33,7 @@ public class MovieService implements IRequestMovie {
     if (exists) {
       throw new MovieAlreadyExistsException(movie.getTitle(), movie.getAuthor());
     }
+    metricService.incrementCreateUpdateMovieCounter(CREATE);
     return iObtainMovie.createMovie(movie);
   }
 
@@ -37,11 +43,13 @@ public class MovieService implements IRequestMovie {
     if (!exists) {
       throw new MovieDoesNotExistException(movie.getTitle(), movie.getAuthor());
     }
+    metricService.incrementCreateUpdateMovieCounter(UPDATE);
     return iObtainMovie.updateMovie(movie);
   }
 
   @Override
   public boolean deleteMovie(final String title) throws DatabaseException {
+    metricService.incrementCreateUpdateMovieCounter(DELETE);
     return iObtainMovie.deleteMovie(title) > 0;
   }
 }

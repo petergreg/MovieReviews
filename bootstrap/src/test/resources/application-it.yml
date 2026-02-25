@@ -5,3 +5,12 @@
 #  jpa:
 #    hibernate:
 #      ddl-auto: create
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include : "health, prometheus" # ajouter "prometheus" en mode “pull”
+  metrics:
+    tags:
+      application: ${spring.application.name}

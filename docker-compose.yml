@@ -3,6 +3,7 @@ networks:
   movie-reviews:
     driver: bridge
     name: movie-reviews
+
 services:
   db:
     image: "postgres:15"
@@ -16,44 +17,81 @@ services:
     networks:
       - movie-reviews
 
-  zookeeper:
-    image: zookeeper
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
-    networks:
-      - movie-reviews
 
-  kafka:
-    image: wurstmeister/kafka
-    container_name: kafka
-    depends_on:
-      - zookeeper
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
     ports:
-      - "9092:9092"
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_CREATE_TOPICS: "local_movie:1:1"
+      - "9090:9090"
     networks:
       - movie-reviews
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml # Lie notre fichier de config à celui dans le conteneur
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
 
-  kafka-gui:
-    image: tchiotludo/akhq
-    depends_on:
-      - kafka
+
+  # Potentiellement ajouter un grafana, non testé
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
     ports:
-      - "8000:8080"
-    environment:
-      AKHQ_CONFIGURATION: |
-        akhq:
-          connections:
-            docker-kafka-server:
-              properties:
-                bootstrap.servers: "kafka:9093"
-                request.timeout.ms: 60000
+      - "3000:3000"
     networks:
       - movie-reviews
+    volumes:
+      - grafana-data:/var/lib/grafana # Persiste les données de Grafana (dashboards, etc.)
+#
+#  pushgateway:
+#    image: prom/pushgateway:latest
+#    container_name: pushgateway
+#    ports:
+#      - "9091:9091" # Port pour recevoir les métriques des jobs
+#    networks:
+#      - movie-reviews
+
+
+#  zookeeper:
+#    image: zookeeper
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
+#    networks:
+#      - movie-reviews
+#
+#  kafka:
+#    image: wurstmeister/kafka
+#    container_name: kafka
+#    depends_on:
+#      - zookeeper
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+#      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+#      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+#      KAFKA_CREATE_TOPICS: "local_movie:1:1"
+#    networks:
+#      - movie-reviews
+#
+#  kafka-gui:
+#    image: tchiotludo/akhq
+#    depends_on:
+#      - kafka
+#    ports:
+#      - "8000:8080"
+#    environment:
+#      AKHQ_CONFIGURATION: |
+#        akhq:
+#          connections:
+#            docker-kafka-server:
+#              properties:
+#                bootstrap.servers: "kafka:9093"
+#                request.timeout.ms: 60000
+#    networks:
+#      - movie-reviews
+
+volumes:
+  grafana-data:

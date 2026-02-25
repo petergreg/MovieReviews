@@ -16,11 +16,39 @@ spring:
     consumer:
       movie-topic: local_movie
       bootstrap-servers: localhost:9092
-      group-id: azd
+      group-id: monConsumerGroup
 
 logging.level:
   org.hibernate.orm.jdbc.bind: trace
 
-#logging:
-#  level:
-#    org.springframework.boot: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        # Expose l'URL /actuator/prometheus Si on est en mode “pull”
+        include: "health,info,prometheus"
+  endpoint:
+    prometheus:
+      access: unrestricted
+
+
+      # Si en mode push, ajouter
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+#  prometheus:
+#    metrics:
+#      export:
+#        pushgateway:
+#          enabled: true
+#          job: deferred-card-transactions-settlement
+#          address: localhost:9091
+
+# Pour desactiver l'envoi des traces/spans qui est fait par defaut, à un collecteur OpenTelemetry.
+# Si on a pas de collecteur en local, on peut déscativer pour eviter de polluer
+# les logs avec des erreurs d'envoi
+
+otel:
+  sdk:
+    disabled: true
